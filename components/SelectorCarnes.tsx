@@ -24,6 +24,35 @@ export default function SelectorCarnes() {
     }
   };
 
+  const calcularPrecioPromedio = () => {
+    const todosLosCortes = [
+      ...carnes.vacuno,
+      ...carnes.cerdo,
+      ...carnes.pollo,
+    ];
+
+    const seleccionados = [
+      ...cortesVacuno,
+      ...cortesCerdo,
+      ...cortesPollo,
+    ];
+
+    const cortesSeleccionados = todosLosCortes.filter((corte) =>
+      seleccionados.includes(corte.nombre)
+    );
+
+    if (cortesSeleccionados.length === 0) return 0;
+
+    const suma = cortesSeleccionados.reduce(
+      (acc, corte) => acc + corte.precio,
+      0
+    );
+
+    return suma / cortesSeleccionados.length;
+  };
+
+  const precioPromedio = calcularPrecioPromedio();
+
   return (
     <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
       <h2 className="mb-6 text-2xl font-bold text-white">Tipo de carne</h2>
@@ -33,7 +62,11 @@ export default function SelectorCarnes() {
           <input
             type="checkbox"
             checked={vacuno}
-            onChange={() => setVacuno(!vacuno)}
+            onChange={() => {
+              const nuevoValor = !vacuno;
+              setVacuno(nuevoValor);
+              if (!nuevoValor) setCortesVacuno([]);
+            }}
           />
           Vacuno
         </label>
@@ -65,7 +98,11 @@ export default function SelectorCarnes() {
           <input
             type="checkbox"
             checked={cerdo}
-            onChange={() => setCerdo(!cerdo)}
+            onChange={() => {
+              const nuevoValor = !cerdo;
+              setCerdo(nuevoValor);
+              if (!nuevoValor) setCortesCerdo([]);
+            }}
           />
           Cerdo
         </label>
@@ -97,7 +134,11 @@ export default function SelectorCarnes() {
           <input
             type="checkbox"
             checked={pollo}
-            onChange={() => setPollo(!pollo)}
+            onChange={() => {
+              const nuevoValor = !pollo;
+              setPollo(nuevoValor);
+              if (!nuevoValor) setCortesPollo([]);
+            }}
           />
           Pollo
         </label>
@@ -137,6 +178,10 @@ export default function SelectorCarnes() {
             Pollo: {cortesPollo.length > 0 ? cortesPollo.join(", ") : "Ninguno"}
           </p>
         </div>
+
+        <p className="mt-4 font-semibold text-green-400">
+          Precio promedio: ${precioPromedio.toLocaleString()}/kg
+        </p>
       </div>
     </section>
   );
@@ -155,6 +200,8 @@ export default function SelectorCarnes() {
 //   const [cortesCerdo, setCortesCerdo] = useState<string[]>([]);
 //   const [cortesPollo, setCortesPollo] = useState<string[]>([]);
 
+
+
 //   const toggleCorte = (
 //     corte: string,
 //     cortesSeleccionados: string[],
@@ -166,6 +213,35 @@ export default function SelectorCarnes() {
 //       setCortes([...cortesSeleccionados, corte]);
 //     }
 //   };
+
+
+//   const calcularPrecioPromedio = () => {
+//     const todosLosCortes = [
+//       ...carnes.vacuno,
+//       ...carnes.cerdo,
+//       ...carnes.pollo,
+//     ];
+
+//     const seleccionados = [
+//       ...cortesVacuno,
+//       ...cortesCerdo,
+//       ...cortesPollo,
+//     ];
+
+//     const cortesSeleccionados = todosLosCortes.filter((corte) =>
+//       seleccionados.includes(corte.nombre)
+//     );
+
+//     if (cortesSeleccionados.length === 0) return 0;
+
+//     const suma = cortesSeleccionados.reduce(
+//       (acc, corte) => acc + corte.precio,
+//       0
+//     );
+
+//     return suma / cortesSeleccionados.length;
+//   };
+//   const precioPromedio = calcularPrecioPromedio();
 
 //   return (
 //     <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
@@ -267,6 +343,7 @@ export default function SelectorCarnes() {
 //             </div>
 //           </div>
 //         )}
+
 //         <div className="mt-6 rounded-lg bg-zinc-800 p-4 text-sm">
 //           <p className="font-semibold text-white">Cortes seleccionados:</p>
 //           <p className="mt-2 text-zinc-300">
@@ -279,6 +356,9 @@ export default function SelectorCarnes() {
 //             Pollo: {cortesPollo.length > 0 ? cortesPollo.join(", ") : "Ninguno"}
 //           </p>
 //         </div>
+//         <p className="mt-4 text-green-400 font-semibold">
+//           Precio promedio: ${precioPromedio.toLocaleString()}
+//         </p>
 //       </div>
 //     </section>
 //   );
