@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SelectorPersonas from "../components/SelectorPersonas";
 import SelectorCarnes from "../components/SelectorCarnes";
 import SelectorPorcentajes from "../components/SelectorPorcentajes";
@@ -46,6 +46,42 @@ export default function Home() {
 
   const [porcentajesCortes, setPorcentajesCortes] =
     useState<PorcentajesCortesState>({});
+
+  useEffect(() => {
+    const adultosGuardados = localStorage.getItem("adultos");
+    const cortesGuardados = localStorage.getItem("cortesSeleccionados");
+    const porcentajesGuardados = localStorage.getItem("porcentajesCortes");
+
+    if (adultosGuardados) {
+      setAdultos(JSON.parse(adultosGuardados));
+    }
+
+    if (cortesGuardados) {
+      setCortesSeleccionados(JSON.parse(cortesGuardados));
+    }
+
+    if (porcentajesGuardados) {
+      setPorcentajesCortes(JSON.parse(porcentajesGuardados));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("adultos", JSON.stringify(adultos));
+  }, [adultos]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "cortesSeleccionados",
+      JSON.stringify(cortesSeleccionados)
+    );
+  }, [cortesSeleccionados]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "porcentajesCortes",
+      JSON.stringify(porcentajesCortes)
+    );
+  }, [porcentajesCortes]);
 
   const cortesActivos = useMemo(() => {
     return [
@@ -104,23 +140,28 @@ export default function Home() {
   const costoPorAdulto = totalAdultos > 0 ? costoTotal / totalAdultos : 0;
 
   const reiniciarCalculo = () => {
-    if (!confirm("¿Seguro que quieres reiniciar el cálculo?")) return;
+  if (!confirm("¿Seguro que quieres reiniciar el cálculo?")) return;
 
-    setAdultos({
-      alto: 0,
-      normal: 0,
-      bajo: 0,
-      ninos: 0,
-    });
+  setAdultos({
+    alto: 0,
+    normal: 0,
+    bajo: 0,
+    ninos: 0,
+  });
 
-    setCortesSeleccionados({
-      vacuno: [],
-      cerdo: [],
-      pollo: [],
-    });
+  setCortesSeleccionados({
+    vacuno: [],
+    cerdo: [],
+    pollo: [],
+  });
 
-    setPorcentajesCortes({});
-  };
+  setPorcentajesCortes({});
+
+  localStorage.removeItem("adultos");
+  localStorage.removeItem("cortesSeleccionados");
+  localStorage.removeItem("porcentajesCortes");
+};
+
   const generarPDF = () => {
     const doc = new jsPDF();
 
@@ -217,7 +258,7 @@ export default function Home() {
         porcentajesCortes={porcentajesCortes}
         setPorcentajesCortes={setPorcentajesCortes}
       />
-      <section className="w-full max-w-xl space-y-6 text-white">
+      <section className="w-full max-w-3xl space-y-6 text-white">
 
         {/* 🔹 RESUMEN GENERAL */}
         <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
@@ -263,55 +304,54 @@ export default function Home() {
 
         {/* 🔹 DETALLE POR CORTE */}
         {detalleCortes.length > 0 && (
-  <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
-    <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>
+          <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
+            <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>
 
-    {["Vacuno", "Cerdo", "Pollo"].map((tipo) => {
-      const cortesPorTipo = detalleCortes.filter((corte) => corte.tipo === tipo);
+            {["Vacuno", "Cerdo", "Pollo"].map((tipo) => {
+              const cortesPorTipo = detalleCortes.filter((corte) => corte.tipo === tipo);
 
-      if (cortesPorTipo.length === 0) return null;
+              if (cortesPorTipo.length === 0) return null;
 
-      return (
-        <div key={tipo} className="mb-6">
-          <h3
-            className={`mb-3 text-xl font-semibold ${
-              tipo === "Vacuno"
-                ? "text-red-300"
-                : tipo === "Cerdo"
-                ? "text-orange-300"
-                : "text-yellow-300"
-            }`}
-          >
-            {tipo}
-          </h3>
+              return (
+                <div key={tipo} className="mb-6">
+                  <h3
+                    className={`mb-3 text-xl font-semibold ${tipo === "Vacuno"
+                      ? "text-red-300"
+                      : tipo === "Cerdo"
+                        ? "text-orange-300"
+                        : "text-yellow-300"
+                      }`}
+                  >
+                    {tipo}
+                  </h3>
 
-          <div className="space-y-3">
-            {cortesPorTipo.map((corte) => (
-              <div
-                key={corte.nombre}
-                className="rounded-lg bg-zinc-800 p-4"
-              >
-                <div className="flex justify-between">
-                  <p className="font-semibold text-white">{corte.nombre}</p>
-                  <p>{corte.porcentaje}%</p>
+                  <div className="space-y-3">
+                    {cortesPorTipo.map((corte) => (
+                      <div
+                        key={corte.nombre}
+                        className="rounded-lg bg-zinc-800 p-4"
+                      >
+                        <div className="flex justify-between">
+                          <p className="font-semibold text-white">{corte.nombre}</p>
+                          <p>{corte.porcentaje}%</p>
+                        </div>
+
+                        <div className="mt-2 text-sm text-zinc-300">
+                          <p>Peso asignado: {corte.kg.toFixed(2)} kg</p>
+                          <p>Precio por kilo: ${corte.precio.toLocaleString()}</p>
+                        </div>
+
+                        <p className="mt-2 font-semibold text-green-400">
+                          Costo del corte: ${corte.costo.toLocaleString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
-                <div className="mt-2 text-sm text-zinc-300">
-                  <p>Peso asignado: {corte.kg.toFixed(2)} kg</p>
-                  <p>Precio por kilo: ${corte.precio.toLocaleString()}</p>
-                </div>
-
-                <p className="mt-2 font-semibold text-green-400">
-                  Costo del corte: ${corte.costo.toLocaleString()}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </div>
-      );
-    })}
-  </div>
-)}
+        )}
         {/* {detalleCortes.length > 0 && (
           <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
             <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>

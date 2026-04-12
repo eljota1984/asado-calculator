@@ -14,7 +14,7 @@ export default function SelectorPersonas({ adultos, setAdultos }: Props) {
   };
 
   return (
-    <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
+    <section className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
       <h2 className="mb-6 text-2xl font-bold text-white">
         Cantidad de personas
       </h2>
