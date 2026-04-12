@@ -94,6 +94,22 @@ export default function Home() {
   const carbonTotal = carneTotal * 1.1;
   const costoPorAdulto = totalAdultos > 0 ? costoTotal / totalAdultos : 0;
 
+  const reiniciarCalculo = () => {
+    setAdultos({
+      alto: 0,
+      normal: 0,
+      bajo: 0,
+      ninos: 0,
+    });
+
+    setCortesSeleccionados({
+      vacuno: [],
+      cerdo: [],
+      pollo: [],
+    });
+
+    setPorcentajesCortes({});
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-black p-8">
       <h1 className="text-4xl font-bold text-white">
@@ -169,6 +185,14 @@ export default function Home() {
               obtener un cálculo final válido.
             </div>
           )}
+        </div>
+        <div className="mt-6">
+          <button
+            onClick={reiniciarCalculo}
+            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700 transition"
+          >
+            Reiniciar cálculo
+          </button>
         </div>
 
       </section>
