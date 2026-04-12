@@ -5,6 +5,7 @@ import SelectorPersonas from "../components/SelectorPersonas";
 import SelectorCarnes from "../components/SelectorCarnes";
 import SelectorPorcentajes from "../components/SelectorPorcentajes";
 import { carnes } from "../lib/datos";
+import jsPDF from "jspdf";
 
 export interface AdultosState {
   alto: number;
@@ -73,6 +74,7 @@ export default function Home() {
   }, 0);
   const porcentajesValidos = totalPorcentajes === 100;
 
+
   const detalleCortes = cortesActivos.map((nombreCorte) => {
     const corteData = todosLosCortes.find((corte) => corte.nombre === nombreCorte);
 
@@ -95,23 +97,80 @@ export default function Home() {
   const costoPorAdulto = totalAdultos > 0 ? costoTotal / totalAdultos : 0;
 
   const reiniciarCalculo = () => {
-  if (!confirm("¿Seguro que quieres reiniciar el cálculo?")) return;
+    if (!confirm("¿Seguro que quieres reiniciar el cálculo?")) return;
 
-  setAdultos({
-    alto: 0,
-    normal: 0,
-    bajo: 0,
-    ninos: 0,
-  });
+    setAdultos({
+      alto: 0,
+      normal: 0,
+      bajo: 0,
+      ninos: 0,
+    });
 
-  setCortesSeleccionados({
-    vacuno: [],
-    cerdo: [],
-    pollo: [],
-  });
+    setCortesSeleccionados({
+      vacuno: [],
+      cerdo: [],
+      pollo: [],
+    });
 
-  setPorcentajesCortes({});
-};
+    setPorcentajesCortes({});
+  };
+  const generarPDF = () => {
+    const doc = new jsPDF();
+
+    let y = 20;
+
+    doc.setFontSize(18);
+    doc.text("Resumen del Asado", 20, y);
+
+    y += 12;
+    doc.setFontSize(12);
+    doc.text(`Total de adultos: ${totalAdultos}`, 20, y);
+
+    y += 8;
+    doc.text(`Total de niños: ${adultos.ninos}`, 20, y);
+
+    y += 8;
+    doc.text(`Carne necesaria: ${carneTotal.toFixed(2)} kg`, 20, y);
+
+    y += 8;
+    doc.text(`Carbón necesario: ${carbonTotal.toFixed(2)} kg`, 20, y);
+
+    y += 8;
+    doc.text(`Total porcentajes: ${totalPorcentajes}%`, 20, y);
+
+    y += 12;
+    doc.setFontSize(14);
+    doc.text("Detalle por corte", 20, y);
+
+    y += 10;
+    doc.setFontSize(11);
+
+    detalleCortes.forEach((corte) => {
+      doc.text(`${corte.nombre}`, 20, y);
+      y += 6;
+      doc.text(`Porcentaje: ${corte.porcentaje}%`, 25, y);
+      y += 6;
+      doc.text(`Kilos asignados: ${corte.kg.toFixed(2)} kg`, 25, y);
+      y += 6;
+      doc.text(`Precio por kilo: $${corte.precio.toLocaleString()}`, 25, y);
+      y += 6;
+      doc.text(`Costo del corte: $${corte.costo.toLocaleString()}`, 25, y);
+      y += 10;
+
+      if (y > 260) {
+        doc.addPage();
+        y = 20;
+      }
+    });
+
+    doc.setFontSize(14);
+    doc.text(`Costo total del asado: $${costoTotal.toLocaleString()}`, 20, y);
+
+    y += 10;
+    doc.text(`Costo por adulto: $${costoPorAdulto.toFixed(0)}`, 20, y);
+
+    doc.save("resumen-asado.pdf");
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-black p-8">
       <h1 className="text-4xl font-bold text-white">
@@ -188,10 +247,19 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="mt-6">
+
+        <div className="mt-6 space-y-3">
+          <button
+            onClick={generarPDF}
+            disabled={!porcentajesValidos}
+            className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:bg-zinc-600"
+          >
+            Descargar PDF
+          </button>
+
           <button
             onClick={reiniciarCalculo}
-            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700 transition"
+            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
           >
             Reiniciar cálculo
           </button>
