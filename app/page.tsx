@@ -263,6 +263,56 @@ export default function Home() {
 
         {/* 🔹 DETALLE POR CORTE */}
         {detalleCortes.length > 0 && (
+  <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
+    <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>
+
+    {["Vacuno", "Cerdo", "Pollo"].map((tipo) => {
+      const cortesPorTipo = detalleCortes.filter((corte) => corte.tipo === tipo);
+
+      if (cortesPorTipo.length === 0) return null;
+
+      return (
+        <div key={tipo} className="mb-6">
+          <h3
+            className={`mb-3 text-xl font-semibold ${
+              tipo === "Vacuno"
+                ? "text-red-300"
+                : tipo === "Cerdo"
+                ? "text-orange-300"
+                : "text-yellow-300"
+            }`}
+          >
+            {tipo}
+          </h3>
+
+          <div className="space-y-3">
+            {cortesPorTipo.map((corte) => (
+              <div
+                key={corte.nombre}
+                className="rounded-lg bg-zinc-800 p-4"
+              >
+                <div className="flex justify-between">
+                  <p className="font-semibold text-white">{corte.nombre}</p>
+                  <p>{corte.porcentaje}%</p>
+                </div>
+
+                <div className="mt-2 text-sm text-zinc-300">
+                  <p>Peso asignado: {corte.kg.toFixed(2)} kg</p>
+                  <p>Precio por kilo: ${corte.precio.toLocaleString()}</p>
+                </div>
+
+                <p className="mt-2 font-semibold text-green-400">
+                  Costo del corte: ${corte.costo.toLocaleString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+)}
+        {/* {detalleCortes.length > 0 && (
           <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
             <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>
 
@@ -291,7 +341,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         {/* 🔹 TOTALES */}
         <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
