@@ -76,6 +76,12 @@ export default function Home() {
 
 
   const detalleCortes = cortesActivos.map((nombreCorte) => {
+    let tipo = "";
+
+    if (cortesSeleccionados.vacuno.includes(nombreCorte)) tipo = "Vacuno";
+    if (cortesSeleccionados.cerdo.includes(nombreCorte)) tipo = "Cerdo";
+    if (cortesSeleccionados.pollo.includes(nombreCorte)) tipo = "Pollo";
+
     const corteData = todosLosCortes.find((corte) => corte.nombre === nombreCorte);
 
     const porcentaje = porcentajesCortes[nombreCorte] ?? 0;
@@ -85,6 +91,7 @@ export default function Home() {
 
     return {
       nombre: nombreCorte,
+      tipo,
       porcentaje,
       kg,
       precio,
@@ -119,7 +126,7 @@ export default function Home() {
 
     let y = 20;
 
-    doc.setFontSize(18);
+    doc.setFontSize(20);
     doc.text("Resumen del Asado", 20, y);
 
     y += 12;
@@ -139,34 +146,55 @@ export default function Home() {
     doc.text(`Total porcentajes: ${totalPorcentajes}%`, 20, y);
 
     y += 12;
-    doc.setFontSize(14);
+    doc.setFontSize(16);
     doc.text("Detalle por corte", 20, y);
 
     y += 10;
     doc.setFontSize(11);
 
     detalleCortes.forEach((corte) => {
-      doc.text(`${corte.nombre}`, 20, y);
-      y += 6;
-      doc.text(`Porcentaje: ${corte.porcentaje}%`, 25, y);
-      y += 6;
-      doc.text(`Kilos asignados: ${corte.kg.toFixed(2)} kg`, 25, y);
-      y += 6;
-      doc.text(`Precio por kilo: $${corte.precio.toLocaleString()}`, 25, y);
-      y += 6;
-      doc.text(`Costo del corte: $${corte.costo.toLocaleString()}`, 25, y);
-      y += 10;
-
-      if (y > 260) {
+      if (y > 250) {
         doc.addPage();
         y = 20;
       }
+
+      doc.setFontSize(12);
+      doc.text(`${corte.nombre}`, 20, y);
+
+      y += 6;
+      doc.setFontSize(11);
+      doc.text(`Tipo de carne: ${corte.tipo}`, 25, y);
+
+      y += 6;
+      doc.text(`Porcentaje asignado: ${corte.porcentaje}%`, 25, y);
+
+      y += 6;
+      doc.text(`Peso asignado: ${corte.kg.toFixed(2)} kg`, 25, y);
+
+      y += 6;
+      doc.text(`Precio por kilo: $${corte.precio.toLocaleString()}`, 25, y);
+
+      y += 6;
+      doc.text(`Costo del corte: $${corte.costo.toLocaleString()}`, 25, y);
+
+      y += 10;
+      doc.line(20, y, 190, y);
+      y += 8;
     });
 
-    doc.setFontSize(14);
-    doc.text(`Costo total del asado: $${costoTotal.toLocaleString()}`, 20, y);
+    if (y > 240) {
+      doc.addPage();
+      y = 20;
+    }
+
+    doc.setFontSize(16);
+    doc.text("Totales finales", 20, y);
 
     y += 10;
+    doc.setFontSize(12);
+    doc.text(`Costo total del asado: $${costoTotal.toLocaleString()}`, 20, y);
+
+    y += 8;
     doc.text(`Costo por adulto: $${costoPorAdulto.toFixed(0)}`, 20, y);
 
     doc.save("resumen-asado.pdf");
@@ -189,8 +217,129 @@ export default function Home() {
         porcentajesCortes={porcentajesCortes}
         setPorcentajesCortes={setPorcentajesCortes}
       />
+      <section className="w-full max-w-xl space-y-6 text-white">
 
-      <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg text-white">
+        {/* 🔹 RESUMEN GENERAL */}
+        <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
+          <h2 className="mb-4 text-2xl font-bold">Resumen general</h2>
+
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="rounded-lg bg-zinc-800 p-3">
+              <p className="text-zinc-400">Adultos</p>
+              <p className="text-lg font-semibold">{totalAdultos}</p>
+            </div>
+
+            <div className="rounded-lg bg-zinc-800 p-3">
+              <p className="text-zinc-400">Niños</p>
+              <p className="text-lg font-semibold">{adultos.ninos}</p>
+            </div>
+
+            <div className="rounded-lg bg-zinc-800 p-3">
+              <p className="text-zinc-400">Carne total</p>
+              <p className="text-lg font-semibold">{carneTotal.toFixed(2)} kg</p>
+            </div>
+
+            <div className="rounded-lg bg-zinc-800 p-3">
+              <p className="text-zinc-400">Carbón</p>
+              <p className="text-lg font-semibold">{carbonTotal.toFixed(2)} kg</p>
+            </div>
+          </div>
+
+          <div className="mt-4 text-sm">
+            <p>
+              Porcentajes:{" "}
+              <span
+                className={
+                  totalPorcentajes === 100
+                    ? "text-green-400"
+                    : "text-red-400"
+                }
+              >
+                {totalPorcentajes}%
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* 🔹 DETALLE POR CORTE */}
+        {detalleCortes.length > 0 && (
+          <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
+            <h2 className="mb-4 text-2xl font-bold">Detalle por corte</h2>
+
+            <div className="space-y-3">
+              {detalleCortes.map((corte) => (
+                <div
+                  key={corte.nombre}
+                  className="rounded-lg bg-zinc-800 p-4"
+                >
+                  <div className="flex justify-between">
+                    <p className="font-semibold text-yellow-300">
+                      {corte.nombre}
+                    </p>
+                    <p>{corte.porcentaje}%</p>
+                  </div>
+
+                  <div className="mt-2 text-sm text-zinc-300">
+                    <p>Peso asignado: {corte.kg.toFixed(2)} kg</p>
+                    <p>Precio por kilo: ${corte.precio.toLocaleString()}</p>
+                  </div>
+
+                  <p className="mt-2 font-semibold text-green-400">
+                    ${corte.costo.toLocaleString()}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 🔹 TOTALES */}
+        <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
+          <h2 className="mb-4 text-2xl font-bold">Totales</h2>
+
+          {porcentajesValidos ? (
+            <div className="space-y-3">
+              <div className="flex justify-between text-lg">
+                <span>Costo total</span>
+                <span className="font-semibold text-yellow-400">
+                  ${costoTotal.toLocaleString()}
+                </span>
+              </div>
+
+              <div className="flex justify-between text-lg">
+                <span>Costo por adulto</span>
+                <span className="font-semibold text-green-400">
+                  ${costoPorAdulto.toFixed(0)}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-lg bg-red-950 p-4 text-red-300 text-sm">
+              Ajusta los porcentajes hasta que sumen 100% para ver los totales.
+            </div>
+          )}
+        </div>
+
+        {/* 🔹 BOTONES */}
+        <div className="space-y-3">
+          <button
+            onClick={generarPDF}
+            disabled={!porcentajesValidos}
+            className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white transition hover:bg-green-700 disabled:bg-zinc-600"
+          >
+            Descargar PDF
+          </button>
+
+          <button
+            onClick={reiniciarCalculo}
+            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
+          >
+            Reiniciar cálculo
+          </button>
+        </div>
+
+      </section>
+      {/* <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg text-white">
         <h2 className="mb-4 text-2xl font-bold">Resumen del asado</h2>
 
         <div className="space-y-2 text-lg">
@@ -265,7 +414,7 @@ export default function Home() {
           </button>
         </div>
 
-      </section>
+      </section> */}
     </main>
   );
 }
