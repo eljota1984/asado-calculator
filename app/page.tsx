@@ -91,7 +91,7 @@ export default function Home() {
   });
 
   const costoTotal = detalleCortes.reduce((acc, corte) => acc + corte.costo, 0);
-
+  const carbonTotal = carneTotal * 1.1;
   const costoPorAdulto = totalAdultos > 0 ? costoTotal / totalAdultos : 0;
 
   return (
@@ -121,6 +121,8 @@ export default function Home() {
           <p>Total de niños: {adultos.ninos}</p>
           <p>Carne necesaria: {carneTotal.toFixed(2)} kg</p>
           <p>
+            <p>Carbón necesario: {carbonTotal.toFixed(2)} kg</p>
+
             Total porcentajes:{" "}
             <span className={totalPorcentajes === 100 ? "text-green-400" : "text-red-400"}>
               {totalPorcentajes}%
