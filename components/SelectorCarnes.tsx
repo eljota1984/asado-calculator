@@ -148,15 +148,13 @@ export default function SelectorCarnes({
       </div>
 
       <div className="space-y-4 text-white">
-        <label className="flex items-center gap-3 text-lg font-medium">
-          <input
-            type="checkbox"
-            checked={vacuno}
-            onChange={() => toggleTipoCarne("vacuno")}
-          />
-          Vacuno
-        </label>
-
+        <button
+          onClick={() => toggleTipoCarne("vacuno")}
+          className="flex w-full items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-lg font-medium hover:bg-zinc-700"
+        >
+          <span>Vacuno ({cortesSeleccionados.vacuno.length})</span>
+          <span className="text-2xl">{vacuno ? "−" : "+"}</span>
+        </button>
         {vacuno &&
           renderBloqueCortes(
             "vacuno",
@@ -165,15 +163,13 @@ export default function SelectorCarnes({
             vacunoFiltrado
           )}
 
-        <label className="flex items-center gap-3 text-lg font-medium">
-          <input
-            type="checkbox"
-            checked={cerdo}
-            onChange={() => toggleTipoCarne("cerdo")}
-          />
-          Cerdo
-        </label>
-
+        <button
+          onClick={() => toggleTipoCarne("cerdo")}
+          className="flex w-full items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-lg font-medium hover:bg-zinc-700"
+        >
+          <span>Cerdo ({cortesSeleccionados.cerdo.length})</span>
+          <span className="text-2xl">{cerdo ? "−" : "+"}</span>
+        </button>
         {cerdo &&
           renderBloqueCortes(
             "cerdo",
@@ -182,14 +178,15 @@ export default function SelectorCarnes({
             cerdoFiltrado
           )}
 
-        <label className="flex items-center gap-3 text-lg font-medium">
-          <input
-            type="checkbox"
-            checked={pollo}
-            onChange={() => toggleTipoCarne("pollo")}
-          />
-          Pollo
-        </label>
+        <button
+          onClick={() => toggleTipoCarne("pollo")}
+          className="flex w-full items-center justify-between rounded-lg bg-zinc-800 px-4 py-3 text-lg font-medium hover:bg-zinc-700"
+        >
+          <span>Pollo ({cortesSeleccionados.pollo.length})</span>
+          <span className="text-2xl">{pollo ? "−" : "+"}</span>
+        </button>
+
+
 
         {pollo &&
           renderBloqueCortes(
