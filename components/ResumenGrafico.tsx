@@ -43,7 +43,7 @@ export default function ResumenGrafico({ detalleCortes }: Props) {
     .join(", ");
 
   return (
-    <div className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg text-white">
+    <div className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg text-white">
       <h2 className="mb-6 text-2xl font-bold">
         Distribución del asado
       </h2>

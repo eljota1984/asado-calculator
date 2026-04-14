@@ -290,7 +290,7 @@ export default function Home() {
       />
     <ResumenGrafico detalleCortes={detalleCortes} />
 
-      <section className="w-full max-w-xl space-y-6 text-white">
+      <section className="w-full max-w-3xl space-y-6 text-white">
         <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
           <h2 className="mb-4 text-2xl font-bold">Resumen general</h2>
 
