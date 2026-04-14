@@ -8,82 +8,154 @@ interface Props {
 }
 
 export default function SelectorPersonas({ adultos, setAdultos }: Props) {
-  const toNumber = (value: string) => {
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? 0 : parsed;
+  const cambiarCantidad = (
+    tipo: keyof AdultosState,
+    operacion: "sumar" | "restar"
+  ) => {
+    setAdultos((prev) => {
+      const valorActual = prev[tipo];
+      const nuevoValor =
+        operacion === "sumar" ? valorActual + 1 : Math.max(0, valorActual - 1);
+
+      return {
+        ...prev,
+        [tipo]: nuevoValor,
+      };
+    });
   };
 
+  const renderFila = (
+    label: string,
+    tipo: keyof AdultosState
+  ) => (
+    <div className="flex items-center justify-between gap-4 rounded-xl bg-zinc-800 p-4">
+      <span className="text-sm font-medium text-white">{label}</span>
+
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => cambiarCantidad(tipo, "restar")}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-xl font-bold text-white hover:bg-red-700"
+        >
+          −
+        </button>
+
+        <div className="min-w-[2.5rem] text-center text-lg font-semibold text-white">
+          {adultos[tipo]}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => cambiarCantidad(tipo, "sumar")}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-xl font-bold text-white hover:bg-green-700"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
+    <section className="w-full max-w-xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
       <h2 className="mb-6 text-2xl font-bold text-white">
         Cantidad de personas
       </h2>
 
       <div className="space-y-4">
-        <div className="flex items-center justify-between gap-4">
-          <label htmlFor="adultos-alto" className="text-white">
-            Adultos (alto consumo)
-          </label>
-          <input
-            id="adultos-alto"
-            type="number"
-            min="0"
-            value={adultos.alto}
-            onChange={(e) =>
-              setAdultos({ ...adultos, alto: toNumber(e.target.value) })
-            }
-            className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
-          />
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          <label htmlFor="adultos-normal" className="text-white">
-            Adultos (consumo normal)
-          </label>
-          <input
-            id="adultos-normal"
-            type="number"
-            min="0"
-            value={adultos.normal}
-            onChange={(e) =>
-              setAdultos({ ...adultos, normal: toNumber(e.target.value) })
-            }
-            className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
-          />
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          <label htmlFor="adultos-bajo" className="text-white">
-            Adultos (bajo consumo)
-          </label>
-          <input
-            id="adultos-bajo"
-            type="number"
-            min="0"
-            value={adultos.bajo}
-            onChange={(e) =>
-              setAdultos({ ...adultos, bajo: toNumber(e.target.value) })
-            }
-            className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
-          />
-        </div>
-
-        <div className="flex items-center justify-between gap-4">
-          <label htmlFor="ninos" className="text-white">
-            Niños
-          </label>
-          <input
-            id="ninos"
-            type="number"
-            min="0"
-            value={adultos.ninos}
-            onChange={(e) =>
-              setAdultos({ ...adultos, ninos: toNumber(e.target.value) })
-            }
-            className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
-          />
-        </div>
+        {renderFila("Adultos (alto consumo)", "alto")}
+        {renderFila("Adultos (consumo normal)", "normal")}
+        {renderFila("Adultos (bajo consumo)", "bajo")}
+        {renderFila("Niños", "ninos")}
       </div>
     </section>
   );
 }
+// "use client";
+
+// import type { AdultosState } from "../app/page";
+
+// interface Props {
+//   adultos: AdultosState;
+//   setAdultos: React.Dispatch<React.SetStateAction<AdultosState>>;
+// }
+
+// export default function SelectorPersonas({ adultos, setAdultos }: Props) {
+//   const toNumber = (value: string) => {
+//     const parsed = Number(value);
+//     return Number.isNaN(parsed) ? 0 : parsed;
+//   };
+
+//   return (
+//     <section className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
+//       <h2 className="mb-6 text-2xl font-bold text-white">
+//         Cantidad de personas
+//       </h2>
+
+//       <div className="space-y-4">
+//         <div className="flex items-center justify-between gap-4">
+//           <label htmlFor="adultos-alto" className="text-white">
+//             Adultos (alto consumo)
+//           </label>
+//           <input
+//             id="adultos-alto"
+//             type="number"
+//             min="0"
+//             value={adultos.alto}
+//             onChange={(e) =>
+//               setAdultos({ ...adultos, alto: toNumber(e.target.value) })
+//             }
+//             className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
+//           />
+//         </div>
+
+//         <div className="flex items-center justify-between gap-4">
+//           <label htmlFor="adultos-normal" className="text-white">
+//             Adultos (consumo normal)
+//           </label>
+//           <input
+//             id="adultos-normal"
+//             type="number"
+//             min="0"
+//             value={adultos.normal}
+//             onChange={(e) =>
+//               setAdultos({ ...adultos, normal: toNumber(e.target.value) })
+//             }
+//             className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
+//           />
+//         </div>
+
+//         <div className="flex items-center justify-between gap-4">
+//           <label htmlFor="adultos-bajo" className="text-white">
+//             Adultos (bajo consumo)
+//           </label>
+//           <input
+//             id="adultos-bajo"
+//             type="number"
+//             min="0"
+//             value={adultos.bajo}
+//             onChange={(e) =>
+//               setAdultos({ ...adultos, bajo: toNumber(e.target.value) })
+//             }
+//             className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
+//           />
+//         </div>
+
+//         <div className="flex items-center justify-between gap-4">
+//           <label htmlFor="ninos" className="text-white">
+//             Niños
+//           </label>
+//           <input
+//             id="ninos"
+//             type="number"
+//             min="0"
+//             value={adultos.ninos}
+//             onChange={(e) =>
+//               setAdultos({ ...adultos, ninos: toNumber(e.target.value) })
+//             }
+//             className="w-24 rounded-md border border-zinc-600 bg-white px-3 py-2 text-black"
+//           />
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
