@@ -170,26 +170,6 @@ export default function Home() {
     localStorage.removeItem("porcentajesCortes");
   };
 
-  // const reiniciarCalculoAutomatico = () => {
-  //   setAdultos({
-  //     alto: 0,
-  //     normal: 0,
-  //     bajo: 0,
-  //     ninos: 0,
-  //   });
-
-  //   setCortesSeleccionados({
-  //     vacuno: [],
-  //     cerdo: [],
-  //     pollo: [],
-  //   });
-
-  //   setPorcentajesCortes({});
-
-  //   localStorage.removeItem("adultos");
-  //   localStorage.removeItem("cortesSeleccionados");
-  //   localStorage.removeItem("porcentajesCortes");
-  // };
 
   const generarPDF = () => {
     const doc = new jsPDF();
@@ -288,7 +268,7 @@ export default function Home() {
         porcentajesCortes={porcentajesCortes}
         setPorcentajesCortes={setPorcentajesCortes}
       />
-    <ResumenGrafico detalleCortes={detalleCortes} />
+      <ResumenGrafico detalleCortes={detalleCortes} />
 
       <section className="w-full max-w-3xl space-y-6 text-white">
         <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
