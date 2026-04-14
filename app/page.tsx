@@ -65,9 +65,9 @@ export default function Home() {
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("adultos", JSON.stringify(adultos));
-  // }, [adultos]);
+  useEffect(() => {
+    localStorage.setItem("adultos", JSON.stringify(adultos));
+  }, [adultos]);
 
   useEffect(() => {
     reiniciarCalculoAutomatico();
