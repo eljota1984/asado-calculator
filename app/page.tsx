@@ -69,19 +69,23 @@ export default function Home() {
   //   localStorage.setItem("adultos", JSON.stringify(adultos));
   // }, [adultos]);
 
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     "cortesSeleccionados",
-  //     JSON.stringify(cortesSeleccionados)
-  //   );
-  // }, [cortesSeleccionados]);
+  useEffect(() => {
+    reiniciarCalculoAutomatico();
+  }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem(
-  //     "porcentajesCortes",
-  //     JSON.stringify(porcentajesCortes)
-  //   );
-  // }, [porcentajesCortes]);
+  useEffect(() => {
+    localStorage.setItem(
+      "cortesSeleccionados",
+      JSON.stringify(cortesSeleccionados)
+    );
+  }, [cortesSeleccionados]);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "porcentajesCortes",
+      JSON.stringify(porcentajesCortes)
+    );
+  }, [porcentajesCortes]);
 
   const cortesActivos = useMemo(() => {
     return [
@@ -144,6 +148,27 @@ export default function Home() {
   const reiniciarCalculo = () => {
     if (!confirm("¿Seguro que quieres reiniciar el cálculo?")) return;
 
+    setAdultos({
+      alto: 0,
+      normal: 0,
+      bajo: 0,
+      ninos: 0,
+    });
+
+    setCortesSeleccionados({
+      vacuno: [],
+      cerdo: [],
+      pollo: [],
+    });
+
+    setPorcentajesCortes({});
+
+    localStorage.removeItem("adultos");
+    localStorage.removeItem("cortesSeleccionados");
+    localStorage.removeItem("porcentajesCortes");
+  };
+
+  const reiniciarCalculoAutomatico = () => {
     setAdultos({
       alto: 0,
       normal: 0,
@@ -317,10 +342,10 @@ export default function Home() {
                 <div key={tipo} className="mb-6">
                   <h3
                     className={`mb-3 text-xl font-semibold ${tipo === "Vacuno"
-                        ? "text-red-300"
-                        : tipo === "Cerdo"
-                          ? "text-orange-300"
-                          : "text-yellow-300"
+                      ? "text-red-300"
+                      : tipo === "Cerdo"
+                        ? "text-orange-300"
+                        : "text-yellow-300"
                       }`}
                   >
                     {tipo}
