@@ -47,31 +47,31 @@ export default function Home() {
   const [porcentajesCortes, setPorcentajesCortes] =
     useState<PorcentajesCortesState>({});
 
-  // useEffect(() => {
-  //   const adultosGuardados = localStorage.getItem("adultos");
-  //   const cortesGuardados = localStorage.getItem("cortesSeleccionados");
-  //   const porcentajesGuardados = localStorage.getItem("porcentajesCortes");
+  useEffect(() => {
+    const adultosGuardados = localStorage.getItem("adultos");
+    const cortesGuardados = localStorage.getItem("cortesSeleccionados");
+    const porcentajesGuardados = localStorage.getItem("porcentajesCortes");
 
-  //   if (adultosGuardados) {
-  //     setAdultos(JSON.parse(adultosGuardados));
-  //   }
+    if (adultosGuardados) {
+      setAdultos(JSON.parse(adultosGuardados));
+    }
 
-  //   if (cortesGuardados) {
-  //     setCortesSeleccionados(JSON.parse(cortesGuardados));
-  //   }
+    if (cortesGuardados) {
+      setCortesSeleccionados(JSON.parse(cortesGuardados));
+    }
 
-  //   if (porcentajesGuardados) {
-  //     setPorcentajesCortes(JSON.parse(porcentajesGuardados));
-  //   }
-  // }, []);
+    if (porcentajesGuardados) {
+      setPorcentajesCortes(JSON.parse(porcentajesGuardados));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("adultos", JSON.stringify(adultos));
   }, [adultos]);
 
-  useEffect(() => {
-    reiniciarCalculoAutomatico();
-  }, []);
+  // useEffect(() => {
+  //   reiniciarCalculoAutomatico();
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem(
@@ -168,26 +168,26 @@ export default function Home() {
     localStorage.removeItem("porcentajesCortes");
   };
 
-  const reiniciarCalculoAutomatico = () => {
-    setAdultos({
-      alto: 0,
-      normal: 0,
-      bajo: 0,
-      ninos: 0,
-    });
+  // const reiniciarCalculoAutomatico = () => {
+  //   setAdultos({
+  //     alto: 0,
+  //     normal: 0,
+  //     bajo: 0,
+  //     ninos: 0,
+  //   });
 
-    setCortesSeleccionados({
-      vacuno: [],
-      cerdo: [],
-      pollo: [],
-    });
+  //   setCortesSeleccionados({
+  //     vacuno: [],
+  //     cerdo: [],
+  //     pollo: [],
+  //   });
 
-    setPorcentajesCortes({});
+  //   setPorcentajesCortes({});
 
-    localStorage.removeItem("adultos");
-    localStorage.removeItem("cortesSeleccionados");
-    localStorage.removeItem("porcentajesCortes");
-  };
+  //   localStorage.removeItem("adultos");
+  //   localStorage.removeItem("cortesSeleccionados");
+  //   localStorage.removeItem("porcentajesCortes");
+  // };
 
   const generarPDF = () => {
     const doc = new jsPDF();
