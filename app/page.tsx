@@ -47,23 +47,23 @@ export default function Home() {
   const [porcentajesCortes, setPorcentajesCortes] =
     useState<PorcentajesCortesState>({});
 
-  useEffect(() => {
-    const adultosGuardados = localStorage.getItem("adultos");
-    const cortesGuardados = localStorage.getItem("cortesSeleccionados");
-    const porcentajesGuardados = localStorage.getItem("porcentajesCortes");
+  // useEffect(() => {
+  //   const adultosGuardados = localStorage.getItem("adultos");
+  //   const cortesGuardados = localStorage.getItem("cortesSeleccionados");
+  //   const porcentajesGuardados = localStorage.getItem("porcentajesCortes");
 
-    if (adultosGuardados) {
-      setAdultos(JSON.parse(adultosGuardados));
-    }
+  //   if (adultosGuardados) {
+  //     setAdultos(JSON.parse(adultosGuardados));
+  //   }
 
-    if (cortesGuardados) {
-      setCortesSeleccionados(JSON.parse(cortesGuardados));
-    }
+  //   if (cortesGuardados) {
+  //     setCortesSeleccionados(JSON.parse(cortesGuardados));
+  //   }
 
-    if (porcentajesGuardados) {
-      setPorcentajesCortes(JSON.parse(porcentajesGuardados));
-    }
-  }, []);
+  //   if (porcentajesGuardados) {
+  //     setPorcentajesCortes(JSON.parse(porcentajesGuardados));
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   localStorage.setItem("adultos", JSON.stringify(adultos));
