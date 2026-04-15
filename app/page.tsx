@@ -257,7 +257,7 @@ export default function Home() {
       </h1>
       <button
         onClick={reiniciarCalculo}
-        className="w-1/2 rounded-lg bg-red-600 text-white py-3 text-xl hover:bg-red-700"
+        className="w-5/8 rounded-lg bg-red-600 text-white py-3 text-xl hover:bg-red-700"
       >
         Reiniciar Cálculo
       </button>
