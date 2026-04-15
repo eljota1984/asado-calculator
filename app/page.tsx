@@ -255,8 +255,24 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-white">
         Calculadora de Asados 🔥
       </h1>
+      <button
+        onClick={reiniciarCalculo}
+        className="w-1/2 rounded-lg bg-red-600 text-white py-3 text-xl hover:bg-red-700"
+      >
+        Reiniciar Cálculo
+      </button>
+      {/* <button
+        onClick={reiniciarCalculo}
+        className="w-5x1 rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
+      >
+        Reiniciar cálculo
+      </button> */}
 
-      <SelectorPersonas adultos={adultos} setAdultos={setAdultos} />
+
+
+      <SelectorPersonas adultos={adultos} setAdultos={setAdultos}
+      />
+
 
       <SelectorCarnes
         cortesSeleccionados={cortesSeleccionados}
@@ -271,6 +287,7 @@ export default function Home() {
       <ResumenGrafico detalleCortes={detalleCortes} />
 
       <section className="w-full max-w-3xl space-y-6 text-white">
+
         <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg">
           <h2 className="mb-4 text-2xl font-bold">Resumen general</h2>
 
@@ -397,12 +414,8 @@ export default function Home() {
             Descargar PDF
           </button>
 
-          <button
-            onClick={reiniciarCalculo}
-            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
-          >
-            Reiniciar cálculo
-          </button>
+
+
         </div>
       </section>
     </main>

@@ -30,6 +30,7 @@ export default function SelectorPersonas({ adultos, setAdultos }: Props) {
   ) => (
     <div className="flex items-center justify-between gap-4 rounded-xl bg-zinc-800 p-4">
       <span className="text-sm font-medium text-white">{label}</span>
+      
 
       <div className="flex items-center gap-3">
         <button
@@ -60,6 +61,7 @@ export default function SelectorPersonas({ adultos, setAdultos }: Props) {
       <h2 className="mb-6 text-2xl font-bold text-white">
         Cantidad de personas
       </h2>
+      
 
       <div className="space-y-4">
         {renderFila("Adultos (alto consumo)", "alto")}
