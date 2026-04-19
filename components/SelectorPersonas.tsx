@@ -7,7 +7,10 @@ interface Props {
   setAdultos: React.Dispatch<React.SetStateAction<AdultosState>>;
 }
 
-export default function SelectorPersonas({ adultos, setAdultos }: Props) {
+export default function SelectorPersonas({
+  adultos,
+  setAdultos,
+}: Props) {
   const cambiarCantidad = (
     tipo: keyof AdultosState,
     operacion: "sumar" | "restar"
@@ -15,7 +18,9 @@ export default function SelectorPersonas({ adultos, setAdultos }: Props) {
     setAdultos((prev) => {
       const valorActual = prev[tipo];
       const nuevoValor =
-        operacion === "sumar" ? valorActual + 1 : Math.max(0, valorActual - 1);
+        operacion === "sumar"
+          ? valorActual + 1
+          : Math.max(0, valorActual - 1);
 
       return {
         ...prev,
@@ -25,51 +30,173 @@ export default function SelectorPersonas({ adultos, setAdultos }: Props) {
   };
 
   const renderFila = (
-    label: string,
+    titulo: string,
+    descripcion: string,
     tipo: keyof AdultosState
-  ) => (
-    <div className="flex items-center justify-between gap-4 rounded-xl bg-zinc-800 p-4">
-      <span className="text-sm font-medium text-white">{label}</span>
-      
-
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => cambiarCantidad(tipo, "restar")}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-xl font-bold text-white hover:bg-red-700"
-        >
-          −
-        </button>
-
-        <div className="min-w-[2.5rem] text-center text-lg font-semibold text-white">
-          {adultos[tipo]}
+  ) => {
+    return (
+      <div className="rounded-xl bg-zinc-800 p-4">
+        <div className="mb-3">
+          <p className="font-semibold text-white">{titulo}</p>
+          <p className="text-sm text-zinc-400">{descripcion}</p>
         </div>
 
-        <button
-          type="button"
-          onClick={() => cambiarCantidad(tipo, "sumar")}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-xl font-bold text-white hover:bg-green-700"
-        >
-          +
-        </button>
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => cambiarCantidad(tipo, "restar")}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-700 text-xl font-bold text-white hover:bg-zinc-600"
+          >
+            −
+          </button>
+
+          <span className="text-2xl font-bold text-white">
+            {adultos[tipo]}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => cambiarCantidad(tipo, "sumar")}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-xl font-bold text-white hover:bg-red-700"
+          >
+            +
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  const totalAdultos =
+    adultos.alto + adultos.normal + adultos.bajo;
+
+  const totalPersonas =
+    adultos.alto +
+    adultos.normal +
+    adultos.bajo +
+    adultos.ninos;
 
   return (
     <section className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
       <h2 className="mb-6 text-2xl font-bold text-white">
         Cantidad de personas
       </h2>
-      
 
-      <div className="space-y-4">
-        {renderFila("Adultos (alto consumo)", "alto")}
-        {renderFila("Adultos (consumo normal)", "normal")}
-        {renderFila("Adultos (bajo consumo)", "bajo")}
-        {renderFila("Niños", "ninos")}
+      <div className="grid gap-4 md:grid-cols-2">
+        {renderFila(
+          "Adulto alto consumo",
+          "Come más que el promedio.",
+          "alto"
+        )}
+
+        {renderFila(
+          "Adulto consumo normal",
+          "Consumo estándar para asado.",
+          "normal"
+        )}
+
+        {renderFila(
+          "Adulto bajo consumo",
+          "Come menos que el promedio.",
+          "bajo"
+        )}
+
+        {renderFila(
+          "Niños",
+          "Se consideran en el consumo total, pero no pagan.",
+          "ninos"
+        )}
+      </div>
+
+      <div className="mt-6 grid gap-3 md:grid-cols-2">
+        <div className="rounded-xl bg-zinc-800 p-4">
+          <p className="text-sm text-zinc-400">Adultos</p>
+          <p className="text-2xl font-bold text-white">
+            {totalAdultos}
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-zinc-800 p-4">
+          <p className="text-sm text-zinc-400">Total personas</p>
+          <p className="text-2xl font-bold text-white">
+            {totalPersonas}
+          </p>
+        </div>
       </div>
     </section>
   );
 }
+// "use client";
+
+// import type { AdultosState } from "../app/page";
+
+// interface Props {
+//   adultos: AdultosState;
+//   setAdultos: React.Dispatch<React.SetStateAction<AdultosState>>;
+// }
+
+// export default function SelectorPersonas({ adultos, setAdultos }: Props) {
+//   const cambiarCantidad = (
+//     tipo: keyof AdultosState,
+//     operacion: "sumar" | "restar"
+//   ) => {
+//     setAdultos((prev) => {
+//       const valorActual = prev[tipo];
+//       const nuevoValor =
+//         operacion === "sumar" ? valorActual + 1 : Math.max(0, valorActual - 1);
+
+//       return {
+//         ...prev,
+//         [tipo]: nuevoValor,
+//       };
+//     });
+//   };
+
+//   const renderFila = (
+//     label: string,
+//     tipo: keyof AdultosState
+//   ) => (
+//     <div className="flex items-center justify-between gap-4 rounded-xl bg-zinc-800 p-4">
+//       <span className="text-sm font-medium text-white">{label}</span>
+      
+
+//       <div className="flex items-center gap-3">
+//         <button
+//           type="button"
+//           onClick={() => cambiarCantidad(tipo, "restar")}
+//           className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-xl font-bold text-white hover:bg-red-700"
+//         >
+//           −
+//         </button>
+
+//         <div className="min-w-[2.5rem] text-center text-lg font-semibold text-white">
+//           {adultos[tipo]}
+//         </div>
+
+//         <button
+//           type="button"
+//           onClick={() => cambiarCantidad(tipo, "sumar")}
+//           className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-xl font-bold text-white hover:bg-green-700"
+//         >
+//           +
+//         </button>
+//       </div>
+//     </div>
+//   );
+
+//   return (
+//     <section className="w-full max-w-3xl rounded-2xl bg-zinc-900 p-6 shadow-lg">
+//       <h2 className="mb-6 text-2xl font-bold text-white">
+//         Cantidad de personas
+//       </h2>
+      
+
+//       <div className="space-y-4">
+//         {renderFila("Adultos (alto consumo)", "alto")}
+//         {renderFila("Adultos (consumo normal)", "normal")}
+//         {renderFila("Adultos (bajo consumo)", "bajo")}
+//         {renderFila("Niños", "ninos")}
+//       </div>
+//     </section>
+//   );
+// }
 
