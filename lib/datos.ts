@@ -601,6 +601,7 @@ export const productosAsado: ProductosAsado = {
     },
   ],
 };
+
 // export type CategoriaCorte = "economico" | "mixto" | "premium";
 // export type TipoCarne = "vacuno" | "cerdo" | "pollo" | "embutidos";
 // export type TipoVenta = "peso_variable" | "bandeja" | "pack" | "unidad";
