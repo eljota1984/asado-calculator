@@ -5,6 +5,11 @@ import { useRouter } from "next/navigation";
 import SelectorPersonas from "../components/SelectorPersonas";
 import SelectorCarnes from "../components/SelectorCarnes";
 
+import DisclaimerPopup from "../components/DisclaimerPopup";  // Ajusta el path
+
+
+
+
 export interface AdultosState {
   alto: number;
   normal: number;
@@ -67,6 +72,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
+        <DisclaimerPopup />
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.2),transparent)]" />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
@@ -79,7 +85,7 @@ export default function Home() {
 
               <div className="text-left">
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
-                  Asado Fácil 
+                  Asado Fácil
                 </p>
                 <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
                   Calculadora de asados
@@ -150,7 +156,13 @@ export default function Home() {
           </div>
         </button>
       </div>
+      <footer className="mt-8 bg-zinc-900 py-4 text-center text-xs text-zinc-500">
+        <p>
+          * Los cálculos de carne y costos son aproximados y se basan en promedios de precios de grandes cadenas de supermercados y cortes envasados o packs. Los resultados pueden variar dependiendo de la tienda, el corte específico y la disponibilidad en el momento de la compra.
+        </p>
+      </footer>
     </main>
+
   );
 }
 
