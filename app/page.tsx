@@ -79,7 +79,7 @@ export default function Home() {
 
               <div className="text-left">
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
-                  Jota Pe
+                  Asado Fácil 
                 </p>
                 <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
                   Calculadora de asados
