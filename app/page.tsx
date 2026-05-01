@@ -65,14 +65,39 @@ export default function Home() {
       JSON.stringify(cortesSeleccionados)
     );
   }, [cortesSeleccionados]);
+  const [cargandoResumen, setCargandoResumen] = useState(false);
 
   const irAResumen = () => {
-    router.push("/resumen");
+    setCargandoResumen(true);
+
+    setTimeout(() => {
+      router.push("/resumen");
+    }, 2000);
   };
 
   return (
+
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
-        <DisclaimerPopup />
+      {cargandoResumen && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 px-4 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40">
+            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600/15 text-4xl ring-1 ring-red-500/40">
+              🔥
+            </div>
+
+            <p className="text-2xl font-black text-white">
+              Aliñando los choripanes...
+            </p>
+
+            <p className="mt-3 text-sm leading-6 text-zinc-400">
+              Calculando kilos, costos y compra sugerida.
+            </p>
+
+            <div className="mx-auto mt-6 h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-red-500" />
+          </div>
+        </div>
+      )}
+      <DisclaimerPopup />
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.2),transparent)]" />
 
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
@@ -137,8 +162,9 @@ export default function Home() {
 
         <button
           onClick={irAResumen}
-          className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500"
-        >
+          disabled={cargandoResumen}
+         className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-70">
+          
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xl font-black text-white">

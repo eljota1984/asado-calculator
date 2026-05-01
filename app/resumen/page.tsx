@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -5,6 +6,7 @@ import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
 import { productosAsado } from "../../lib/datos";
 import type { AdultosState, CortesSeleccionadosState } from "../page";
+
 
 export default function ResumenPage() {
     const router = useRouter();
