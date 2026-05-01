@@ -7,17 +7,14 @@ import jsPDF from "jspdf";
 import { productosAsado } from "../../lib/datos";
 import type { AdultosState, CortesSeleccionadosState } from "../page";
 
-
 export default function ResumenPage() {
     const router = useRouter();
-
     const [adultos, setAdultos] = useState<AdultosState>({
         alto: 0,
         normal: 0,
         bajo: 0,
         ninos: 0,
     });
-
     const [cortesSeleccionados, setCortesSeleccionados] =
         useState<CortesSeleccionadosState>({
             vacuno: [],
@@ -25,9 +22,7 @@ export default function ResumenPage() {
             pollo: [],
             embutidos: [],
         });
-
     const [mostrarDisclaimer, setMostrarDisclaimer] = useState(true);
-
     useEffect(() => {
         const adultosGuardados = localStorage.getItem("adultos");
         const cortesGuardados = localStorage.getItem("cortesSeleccionados");
@@ -40,7 +35,6 @@ export default function ResumenPage() {
             setCortesSeleccionados(JSON.parse(cortesGuardados));
         }
     }, []);
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setMostrarDisclaimer(false);
@@ -48,14 +42,12 @@ export default function ResumenPage() {
 
         return () => clearTimeout(timer);
     }, []);
-
     const gramosPorPersona = {
         alto: 550,
         normal: 420,
         bajo: 320,
         ninos: 220,
     };
-
     const totalPersonas =
         adultos.alto + adultos.normal + adultos.bajo + adultos.ninos;
 
@@ -68,7 +60,6 @@ export default function ResumenPage() {
         adultos.ninos * gramosPorPersona.ninos;
 
     const kilosTotales = gramosTotales / 1000;
-
     const seleccionados = useMemo(() => {
         const todos = [
             ...productosAsado.vacuno,
@@ -76,31 +67,24 @@ export default function ResumenPage() {
             ...productosAsado.pollo,
             ...productosAsado.embutidos,
         ];
-
         const nombres = [
             ...cortesSeleccionados.vacuno,
             ...cortesSeleccionados.cerdo,
             ...cortesSeleccionados.pollo,
             ...cortesSeleccionados.embutidos,
         ];
-
         return todos.filter((item) => nombres.includes(item.nombre));
     }, [cortesSeleccionados]);
-
     const cantidadSeleccionados = seleccionados.length;
-
     const precioPromedio =
         cantidadSeleccionados > 0
             ? seleccionados.reduce((acc, item) => acc + item.precio, 0) /
             cantidadSeleccionados
             : 0;
-
     const costoEstimado =
         cantidadSeleccionados > 0 ? kilosTotales * precioPromedio : 0;
-
     const costoPorAdulto =
         totalAdultos > 0 ? costoEstimado / totalAdultos : 0;
-
     const resumenPorTipo = [
         {
             nombre: "Vacuno",
@@ -119,7 +103,6 @@ export default function ResumenPage() {
             cantidad: cortesSeleccionados.embutidos.length,
         },
     ];
-
     const compraSugerida = useMemo(() => {
         if (seleccionados.length === 0 || kilosTotales === 0) return [];
 
@@ -128,16 +111,13 @@ export default function ResumenPage() {
         return seleccionados.map((producto) => {
             const rendimiento = producto.rendimiento ?? 1;
             const pesoPromedio = producto.pesoPromedio ?? 1;
-
             const kilosNecesariosBrutos = kilosPorProducto / rendimiento;
             const cantidadSugerida = Math.ceil(kilosNecesariosBrutos / pesoPromedio);
             const kilosCompraAprox = cantidadSugerida * pesoPromedio;
-
             const costoSugerido =
                 producto.tipoVenta === "pack"
                     ? cantidadSugerida * producto.precio
                     : kilosCompraAprox * producto.precio;
-
             return {
                 nombre: producto.nombre,
                 tipo: producto.tipo,
@@ -151,59 +131,45 @@ export default function ResumenPage() {
             };
         });
     }, [seleccionados, kilosTotales]);
-
     const totalCompraSugerida = useMemo(() => {
         return compraSugerida.reduce((acc, item) => acc + item.costoSugerido, 0);
     }, [compraSugerida]);
-
     const kilosCompraSugerida = compraSugerida.reduce(
         (acc, item) => acc + item.kilosCompraAprox,
         0
     );
-
     const costoPorAdultoReal =
         totalAdultos > 0 ? totalCompraSugerida / totalAdultos : 0;
-
     const costoPorAdultoCompraSugerida =
         totalAdultos > 0 ? totalCompraSugerida / totalAdultos : 0;
-
     const reiniciarCalculo = () => {
         localStorage.removeItem("adultos");
         localStorage.removeItem("cortesSeleccionados");
         router.push("/");
     };
-
     const volverAEditar = () => {
         router.push("/");
     };
-
     const generarPDF = () => {
         const doc = new jsPDF();
         let y = 20;
-
         doc.setFontSize(20);
         doc.text("Resumen del Asado", 20, y);
-
         y += 12;
         doc.setFontSize(12);
         doc.text(`Adultos: ${totalAdultos}`, 20, y);
-
         y += 8;
         doc.text(`Ninos: ${adultos.ninos}`, 20, y);
-
         y += 8;
         doc.text(`Total personas: ${totalPersonas}`, 20, y);
-
         y += 8;
         doc.text(`Carne estimada: ${kilosTotales.toFixed(2)} kg`, 20, y);
-
         y += 8;
         doc.text(
             `Costo estimado: $${Math.round(costoEstimado).toLocaleString("es-CL")}`,
             20,
             y
         );
-
         y += 8;
         doc.text(
             `Costo por adulto: $${Math.round(costoPorAdulto).toLocaleString(
@@ -212,23 +178,17 @@ export default function ResumenPage() {
             20,
             y
         );
-
         y += 10;
-
         doc.setFontSize(14);
         doc.text("Resumen compra sugerida", 20, y);
-
         y += 8;
         doc.setFontSize(12);
-
         doc.text(
             `Kilos compra sugerida: ${kilosCompraSugerida.toFixed(2)} kg`,
             20,
             y
         );
-
         y += 8;
-
         doc.text(
             `Costo total compra sugerida: $${Math.round(
                 totalCompraSugerida
@@ -238,7 +198,6 @@ export default function ResumenPage() {
         );
 
         y += 8;
-
         doc.text(
             `Costo por adulto sugerido: $${Math.round(
                 costoPorAdultoReal
@@ -246,11 +205,9 @@ export default function ResumenPage() {
             20,
             y
         );
-
         y += 12;
         doc.setFontSize(16);
         doc.text("Seleccion por tipo", 20, y);
-
         y += 10;
         doc.setFontSize(12);
 
@@ -258,29 +215,22 @@ export default function ResumenPage() {
             doc.text(`${item.nombre}: ${item.cantidad}`, 20, y);
             y += 8;
         });
-
         y += 8;
-
         if (y > 250) {
             doc.addPage();
             y = 20;
         }
-
         doc.setFontSize(16);
         doc.text("Compra sugerida", 20, y);
-
         y += 10;
         doc.setFontSize(11);
-
         compraSugerida.forEach((item) => {
             if (y > 260) {
                 doc.addPage();
                 y = 20;
             }
-
             doc.text(`${item.nombre}`, 20, y);
             y += 6;
-
             doc.text(
                 `Sugerencia: ${item.cantidadSugerida} ${item.tipoVenta === "pack"
                     ? "pack(s)"
@@ -374,7 +324,7 @@ export default function ResumenPage() {
             <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.25),transparent)]" />
 
             {mostrarDisclaimer && (
-                <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-2xl rounded-3xl border border-red-500/40 bg-zinc-950/95 p-5 shadow-2xl shadow-red-950/40 backdrop-blur">
+                <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-full rounded-3xl border border-red-500/40 bg-zinc-950/95 p-5 shadow-2xl shadow-red-950/40 backdrop-blur">
                     <div className="flex items-start justify-between gap-4">
                         <div>
                             <p className="text-lg font-black text-red-400">

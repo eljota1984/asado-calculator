@@ -29,19 +29,48 @@ export default function SelectorPersonas({
     });
   };
 
-  const renderFila = (
+  const renderCard = (
+    emoji: string,
     titulo: string,
     descripcion: string,
+    gramaje: string,
     tipo: keyof AdultosState
   ) => {
+    const cantidad = adultos[tipo];
+    const seleccionado = cantidad > 0;
+
     return (
-      <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-lg shadow-black/20">
-        <div className="mb-4">
-          <p className="font-bold text-white">{titulo}</p>
-          <p className="mt-1 text-sm leading-5 text-zinc-400">{descripcion}</p>
+      <div
+        className={`rounded-3xl border p-5 shadow-lg shadow-black/20 transition ${
+          seleccionado
+            ? "border-red-500/50 bg-red-950/25"
+            : "border-zinc-800 bg-zinc-950 hover:border-red-500/30"
+        }`}
+      >
+        <div className="flex items-start gap-4">
+          <div
+            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-3xl ring-1 ${
+              seleccionado
+                ? "bg-red-600/20 ring-red-500/50"
+                : "bg-zinc-900 ring-zinc-800"
+            }`}
+          >
+            {emoji}
+          </div>
+
+          <div className="flex-1">
+            <p className="text-lg font-black text-white">{titulo}</p>
+            <p className="mt-1 text-sm leading-5 text-zinc-400">
+              {descripcion}
+            </p>
+
+            <div className="mt-3 inline-flex rounded-full border border-red-500/30 bg-red-600/10 px-3 py-1 text-xs font-bold text-red-300">
+              {gramaje}
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between rounded-2xl bg-zinc-900 p-2 ring-1 ring-zinc-800">
+        <div className="mt-5 flex items-center justify-between rounded-2xl bg-zinc-900 p-2 ring-1 ring-zinc-800">
           <button
             type="button"
             onClick={() => cambiarCantidad(tipo, "restar")}
@@ -50,9 +79,12 @@ export default function SelectorPersonas({
             −
           </button>
 
-          <span className="min-w-12 text-center text-3xl font-black text-white">
-            {adultos[tipo]}
-          </span>
+          <div className="text-center">
+            <span className="block text-3xl font-black text-white">
+              {cantidad}
+            </span>
+            <span className="text-xs text-zinc-500">cantidad</span>
+          </div>
 
           <button
             type="button"
@@ -89,27 +121,35 @@ export default function SelectorPersonas({
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        {renderFila(
-          "Adulto alto consumo",
-          "Come más que el promedio.",
+        {renderCard(
+          "🪓",
+          "Vikingo / Vikinga",
+          "Llega con hambre ancestral.",
+          "Aprox. 550 g",
           "alto"
         )}
 
-        {renderFila(
-          "Adulto consumo normal",
-          "Consumo estándar para asado.",
+        {renderCard(
+          "🔥",
+          "Parrillero clásico",
+          "Buen apetito y ritmo estable.",
+          "Aprox. 420 g",
           "normal"
         )}
 
-        {renderFila(
-          "Adulto bajo consumo",
-          "Come menos que el promedio.",
+        {renderCard(
+          "🐦",
+          "Picoteador/a",
+          "Come poco, conversa harto.",
+          "Aprox. 320 g",
           "bajo"
         )}
 
-        {renderFila(
-          "Niños",
-          "Se consideran en el consumo total, pero no pagan.",
+        {renderCard(
+          "🍟",
+          "Peques",
+          "Comen menos, se mueven más.",
+          "Aprox. 220 g",
           "ninos"
         )}
       </div>
