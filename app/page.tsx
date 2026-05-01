@@ -4,9 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import SelectorPersonas from "../components/SelectorPersonas";
 import SelectorCarnes from "../components/SelectorCarnes";
-
 import DisclaimerPopup from "../components/DisclaimerPopup";  // Ajusta el path
-
 
 
 
@@ -68,15 +66,24 @@ export default function Home() {
   const [cargandoResumen, setCargandoResumen] = useState(false);
 
   const irAResumen = () => {
+    if (!hayAdultos) return;
+
     setCargandoResumen(true);
 
     setTimeout(() => {
       router.push("/resumen");
-    }, 2000);
+    }, 1400);
   };
+  // const irAResumen = () => {
+  //   setCargandoResumen(true);
+
+  //   setTimeout(() => {
+  //     router.push("/resumen");
+  //   }, 2000);
+  // };
+  const hayAdultos = adultos.alto + adultos.normal + adultos.bajo > 0;
 
   return (
-
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
       {cargandoResumen && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 px-4 backdrop-blur-sm">
@@ -104,10 +111,10 @@ export default function Home() {
         <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
           <div className="flex flex-col items-center gap-5 text-center">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
+
+              <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
                 🔥
               </div>
-
               <div className="text-left">
                 <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
                   Asado Fácil
@@ -117,65 +124,56 @@ export default function Home() {
                 </p>
               </div>
             </div>
-
             <div>
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-red-400">
                 Planifica mejor tu parrilla
               </p>
-
               <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
                 Calculadora de Asados
               </h1>
-
               <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
                 Calcula cantidades, selecciona productos reales, estima costos
                 y genera un resumen listo para organizar la compra.
               </p>
             </div>
-
             <div className="grid w-full gap-3 pt-2 text-sm md:grid-cols-4">
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">🔥 Fácil</p>
               </div>
-
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">💰 Costos</p>
               </div>
-
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">📦 Compra sugerida</p>
               </div>
-
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">📄 PDF</p>
               </div>
             </div>
           </div>
         </section>
-
         <SelectorPersonas adultos={adultos} setAdultos={setAdultos} />
-
         <SelectorCarnes
           cortesSeleccionados={cortesSeleccionados}
           setCortesSeleccionados={setCortesSeleccionados}
         />
-
         <button
           onClick={irAResumen}
-          disabled={cargandoResumen}
-         className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-70">
-          
+          disabled={cargandoResumen || !hayAdultos}
+          // disabled={cargandoResumen}
+          className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-70">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xl font-black text-white">
-                Continuar al resumen
+                {hayAdultos ? "Continuar al resumen" : "Agrega al menos un adulto"}
               </p>
-
               <p className="mt-1 text-sm text-red-100">
-                Ver dashboard, compra sugerida, costos estimados y descargar PDF
+                {hayAdultos
+                  ? "Ver dashboard, compra sugerida, costos estimados y descargar PDF"
+                  : "El resumen se habilita cuando hay al menos un adulto que pague."}
               </p>
+        
             </div>
-
             <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-3xl text-white transition group-hover:translate-x-1">
               →
             </span>
@@ -188,7 +186,6 @@ export default function Home() {
         </p>
       </footer>
     </main>
-
   );
 }
 
