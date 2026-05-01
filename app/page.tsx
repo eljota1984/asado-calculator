@@ -66,7 +66,7 @@ export default function Home() {
   const [cargandoResumen, setCargandoResumen] = useState(false);
 
   const irAResumen = () => {
-    if (!hayAdultos) return;
+    if (!hayAdultos || !hayCortes) return;
 
     setCargandoResumen(true);
 
@@ -74,15 +74,14 @@ export default function Home() {
       router.push("/resumen");
     }, 1400);
   };
-  // const irAResumen = () => {
-  //   setCargandoResumen(true);
 
-  //   setTimeout(() => {
-  //     router.push("/resumen");
-  //   }, 2000);
-  // };
   const hayAdultos = adultos.alto + adultos.normal + adultos.bajo > 0;
-
+  const hayCortes =
+    cortesSeleccionados.vacuno.length +
+    cortesSeleccionados.cerdo.length +
+    cortesSeleccionados.pollo.length +
+    cortesSeleccionados.embutidos.length >
+    0;
   return (
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
       {cargandoResumen && (
@@ -159,20 +158,24 @@ export default function Home() {
         />
         <button
           onClick={irAResumen}
-          disabled={cargandoResumen || !hayAdultos}
-          // disabled={cargandoResumen}
+          disabled={cargandoResumen || !hayAdultos || !hayCortes}
           className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-70">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xl font-black text-white">
-                {hayAdultos ? "Continuar al resumen" : "Agrega al menos un adulto"}
+                {!hayAdultos
+                  ? "Agrega al menos un adulto"
+                  : !hayCortes
+                    ? "Selecciona al menos un corte"
+                    : "Continuar al resumen"}
               </p>
-              <p className="mt-1 text-sm text-red-100">
-                {hayAdultos
-                  ? "Ver dashboard, compra sugerida, costos estimados y descargar PDF"
-                  : "El resumen se habilita cuando hay al menos un adulto que pague."}
-              </p>
-        
+              {
+                !hayAdultos
+                  ? "El resumen se habilita cuando hay al menos un adulto que pague."
+                  : !hayCortes
+                    ? "Debes seleccionar al menos un producto de vacuno, cerdo, pollo o embutidos."
+                    : "Ver dashboard, compra sugerida, costos estimados y descargar PDF"
+              }
             </div>
             <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-3xl text-white transition group-hover:translate-x-1">
               →
