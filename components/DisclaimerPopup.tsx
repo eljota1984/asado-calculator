@@ -15,7 +15,7 @@ export default function DisclaimerPopup() {
 
   return (
     mostrarDisclaimer && (
-      <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-5x1 rounded-2xl border border-red-600 bg-zinc-900 p-5 shadow-2xl">
+      <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-5xl rounded-2xl border border-red-600 bg-zinc-900 p-5 shadow-2xl">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-lg font-bold text-red-400">

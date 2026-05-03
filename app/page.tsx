@@ -111,22 +111,29 @@ export default function Home() {
           <div className="flex flex-col items-center gap-5 text-center">
             <div className="flex items-center gap-3">
 
-              <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
+              {/* <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
                 🔥
-              </div>
+              </div> */}
               <div className="text-left">
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
+                {/* <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
                   Asado Fácil
-                </p>
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                </p> */}
+                {/* <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
                   Calculadora de asados
-                </p>
+                </p> */}
               </div>
             </div>
             <div>
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-red-400">
+              <div className="mb-4 flex justify-center">
+                <img
+                  src="/logo_final.png"
+                  alt="Calculadora de Asados"
+                  className="h-40 w-auto md:h-56"
+                />
+              </div>
+              {/* <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-red-400">
                 Planifica mejor tu parrilla
-              </p>
+              </p> */}
               <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
                 Calculadora de Asados
               </h1>
@@ -136,7 +143,7 @@ export default function Home() {
               </p>
             </div>
             <div className="grid w-full gap-3 pt-2 text-sm md:grid-cols-4">
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
+              {/* <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">🔥 Fácil</p>
               </div>
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
@@ -147,7 +154,7 @@ export default function Home() {
               </div>
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
                 <p className="text-red-400">📄 PDF</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
