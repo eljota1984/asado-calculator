@@ -72,7 +72,7 @@ export default function Home() {
 
     setTimeout(() => {
       router.push("/resumen");
-    }, 1400);
+    }, 2800);
   };
 
   const hayAdultos = adultos.alto + adultos.normal + adultos.bajo > 0;
@@ -86,10 +86,16 @@ export default function Home() {
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
       {cargandoResumen && (
         <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40">
-            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600/15 text-4xl ring-1 ring-red-500/40">
-              🔥
-            </div>
+          {/* <div className="w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40"> */}
+            <div className="flex flex-col items-center w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40">
+            <img
+              src="/logo_transicion.png"
+              alt="Calculadora de Asados"
+              className="h-40 w-auto md:h-56"
+            />
+            {/* <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600/15 text-4xl ring-1 ring-red-500/40">
+              🔥   
+            </div> */}
 
             <p className="text-2xl font-black text-white">
               Aliñando los choripanes...
@@ -109,7 +115,7 @@ export default function Home() {
       <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
         <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
           <div className="flex flex-col items-center gap-5 text-center">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3" >
 
               {/* <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
                 🔥
