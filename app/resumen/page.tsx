@@ -354,14 +354,24 @@ export default function ResumenPage() {
 
             <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
                 <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
-                    <div className="text-center">
-                        <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-red-400">
-                            Dashboard del asado
-                        </p>
+                    {/* <div className="text-center"> */}
+                    <div className="flex flex-col items-center text-center">
+                        {/* <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-red-400">
+                            Dashboard del asado */}
+                            <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
+                                Resumen del Asado
+                            </h1>
+{/* 
+                        </p> */}
+                        <img
+                            src="/logo_final.png"
+                            alt="Calculadora de Asados"
+                            className="h-40 w-auto md:h-56"
+                        />
 
-                        <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
+                        {/* <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
                             Resumen del Asado 📊
-                        </h1>
+                        </h1> */}
 
                         <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
                             Revisa costos, kilos estimados, compra sugerida y descarga el PDF
@@ -553,4 +563,4 @@ export default function ResumenPage() {
             </footer>
         </main>
     );
-  }
+}
