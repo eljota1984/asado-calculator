@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import jsPDF from "jspdf";
-import { productosAsado } from "../../lib/datos";
-import type { AdultosState, CortesSeleccionadosState } from "../page";
+import { productosAsado } from "../lib/datos";
+import type { AdultosState, CortesSeleccionadosState } from "../lib/types";
 
 export default function ResumenPage() {
     const router = useRouter();

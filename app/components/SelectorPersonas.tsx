@@ -1,6 +1,6 @@
 "use client";
 
-import type { AdultosState } from "../app/page";
+import type { AdultosState } from "../lib/types";
 
 interface Props {
   adultos: AdultosState;

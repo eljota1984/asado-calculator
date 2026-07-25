@@ -7,7 +7,7 @@ import {
   type CategoriaCorte,
   type TipoVenta,
 } from "../lib/datos";
-import type { CortesSeleccionadosState } from "../app/page";
+import type { CortesSeleccionadosState } from "../lib/types";
 
 interface Props {
   cortesSeleccionados: CortesSeleccionadosState;

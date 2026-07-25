@@ -1,207 +1,64 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import SelectorPersonas from "../components/SelectorPersonas";
-import SelectorCarnes from "../components/SelectorCarnes";
-import DisclaimerPopup from "../components/DisclaimerPopup";  // Ajusta el path
-
-
-
-export interface AdultosState {
-  alto: number;
-  normal: number;
-  bajo: number;
-  ninos: number;
-}
-
-export interface CortesSeleccionadosState {
-  vacuno: string[];
-  cerdo: string[];
-  pollo: string[];
-  embutidos: string[];
-}
+import Link from "next/link";
+import SiteHeader from "./components/SiteHeader";
+import ArticleCard from "./components/ArticleCard";
+import { posts } from "./lib/posts";
 
 export default function Home() {
-  const router = useRouter();
+  const featuredPosts = posts.slice(0, 3);
 
-  const [adultos, setAdultos] = useState<AdultosState>({
-    alto: 0,
-    normal: 0,
-    bajo: 0,
-    ninos: 0,
-  });
-
-  const [cortesSeleccionados, setCortesSeleccionados] =
-    useState<CortesSeleccionadosState>({
-      vacuno: [],
-      cerdo: [],
-      pollo: [],
-      embutidos: [],
-    });
-
-  useEffect(() => {
-    const adultosGuardados = localStorage.getItem("adultos");
-    const cortesGuardados = localStorage.getItem("cortesSeleccionados");
-
-    if (adultosGuardados) {
-      setAdultos(JSON.parse(adultosGuardados));
-    }
-
-    if (cortesGuardados) {
-      setCortesSeleccionados(JSON.parse(cortesGuardados));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("adultos", JSON.stringify(adultos));
-  }, [adultos]);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "cortesSeleccionados",
-      JSON.stringify(cortesSeleccionados)
-    );
-  }, [cortesSeleccionados]);
-  const [cargandoResumen, setCargandoResumen] = useState(false);
-
-  const irAResumen = () => {
-    if (!hayAdultos || !hayCortes) return;
-
-    setCargandoResumen(true);
-
-    setTimeout(() => {
-      router.push("/resumen");
-    }, 2800);
-  };
-
-  const hayAdultos = adultos.alto + adultos.normal + adultos.bajo > 0;
-  const hayCortes =
-    cortesSeleccionados.vacuno.length +
-    cortesSeleccionados.cerdo.length +
-    cortesSeleccionados.pollo.length +
-    cortesSeleccionados.embutidos.length >
-    0;
   return (
     <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
-      {cargandoResumen && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/90 px-4 backdrop-blur-sm">
-          {/* <div className="w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40"> */}
-            <div className="flex flex-col items-center w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40">
-            <img
-              src="/logo_final.png"
-              alt="Calculadora de Asados"
-              className="h-40 w-auto md:h-56"
-            />
-            {/* <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-600/15 text-4xl ring-1 ring-red-500/40">
-              🔥   
-            </div> */}
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.22),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(234,179,8,0.12),transparent_28%)]" />
 
-            <p className="text-2xl font-black text-white">
-              Aliñando los choripanes...
+      <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/85 shadow-2xl shadow-red-950/20">
+        <SiteHeader />
+
+        <section className="grid gap-8 px-6 py-10 md:grid-cols-2 md:px-10 md:py-14">
+          <div>
+            <p className="mb-4 text-xs font-black uppercase tracking-[0.35em] text-red-400">
+              Planifica mejor tu parrilla
             </p>
 
-            <p className="mt-3 text-sm leading-6 text-zinc-400">
-              Calculando kilos, costos y compra sugerida.
+            <h1 className="text-4xl font-black leading-tight tracking-tight text-white md:text-6xl">
+              Calcula tu asado sin quedarse{" "}
+              <span className="text-yellow-400">corto</span> ni comprar{" "}
+              <span className="text-yellow-400">de más</span>
+            </h1>
+
+            <p className="mt-5 max-w-xl text-sm leading-7 text-zinc-400 md:text-base">
+              Define kilos ideales según cantidad de personas, apetito y cortes.
+              Además, estima costos y genera una compra sugerida para que solo
+              te preocupes de disfrutar.
             </p>
 
-            <div className="mx-auto mt-6 h-10 w-10 animate-spin rounded-full border-4 border-zinc-700 border-t-red-500" />
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/calculadora"
+                className="rounded-2xl bg-red-600 px-6 py-4 text-center text-sm font-black text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500"
+              >
+                Calcular mi asado
+              </Link>
+
+              <Link
+                href="/blog"
+                className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-6 py-4 text-center text-sm font-black text-yellow-200 transition hover:bg-yellow-500/20"
+              >
+                Ver recetas
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
-      <DisclaimerPopup />
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.2),transparent)]" />
 
-      <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
-        <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
-          <div className="flex flex-col items-center gap-5 text-center">
-            <div className="flex items-center gap-3" >
-
-              {/* <div className="flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-red-600/15 text-3xl ring-1 ring-red-500/40">
-                🔥
-              </div> */}
-              <div className="text-left">
-                {/* <p className="text-xs font-bold uppercase tracking-[0.3em] text-red-400">
-                  Asado Fácil
-                </p> */}
-                {/* <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-                  Calculadora de asados
-                </p> */}
-              </div>
-            </div>
-            <div>
-              <div className="mb-4 flex justify-center">
-                <img
-                  src="/logo_final.png"
-                  alt="Calculadora de Asados"
-                  className="h-40 w-auto md:h-56"
-                />
-              </div>
-              {/* <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-red-400">
-                Planifica mejor tu parrilla
-              </p> */}
-              <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
-                Calculadora de Asados
-              </h1>
-              <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
-                Calcula cantidades, selecciona productos reales, estima costos
-                y genera un resumen listo para organizar la compra.
-              </p>
-            </div>
-            <div className="grid w-full gap-3 pt-2 text-sm md:grid-cols-4">
-              {/* <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
-                <p className="text-red-400">🔥 Fácil</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
-                <p className="text-red-400">💰 Costos</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
-                <p className="text-red-400">📦 Compra sugerida</p>
-              </div>
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-3">
-                <p className="text-red-400">📄 PDF</p>
-              </div> */}
-            </div>
+          <div className="relative flex min-h-[320px] items-center justify-center rounded-[2rem] border border-zinc-800 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.35),transparent_55%),linear-gradient(135deg,#18181b,#09090b)] text-[8rem]">
+            🥩
           </div>
         </section>
-        <SelectorPersonas adultos={adultos} setAdultos={setAdultos} />
-        <SelectorCarnes
-          cortesSeleccionados={cortesSeleccionados}
-          setCortesSeleccionados={setCortesSeleccionados}
-        />
-        <button
-          onClick={irAResumen}
-          disabled={cargandoResumen || !hayAdultos || !hayCortes}
-          className="group w-full rounded-[1.7rem] border border-red-500/50 bg-gradient-to-r from-red-700 to-red-600 px-6 py-5 text-left shadow-2xl shadow-red-950/30 transition hover:scale-[1.01] hover:from-red-600 hover:to-red-500 disabled:cursor-not-allowed disabled:opacity-70">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <p className="text-xl font-black text-white">
-                {!hayAdultos
-                  ? "Agrega al menos un adulto"
-                  : !hayCortes
-                    ? "Selecciona al menos un corte"
-                    : "Continuar al resumen"}
-              </p>
-              {
-                !hayAdultos
-                  ? "El resumen se habilita cuando hay al menos un adulto que pague."
-                  : !hayCortes
-                    ? "Debes seleccionar al menos un producto de vacuno, cerdo, pollo o embutidos."
-                    : "Ver dashboard, compra sugerida, costos estimados y descargar PDF"
-              }
-            </div>
-            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-3xl text-white transition group-hover:translate-x-1">
-              →
-            </span>
-          </div>
-        </button>
+
+        <section className="grid gap-5 px-6 pb-10 md:grid-cols-3 md:px-10">
+          {featuredPosts.map((post) => (
+            <ArticleCard key={post.slug} post={post} />
+          ))}
+        </section>
       </div>
-      <footer className="mt-8 bg-zinc-900 py-4 text-center text-xs text-zinc-500">
-        <p>
-          * Los cálculos de carne y costos son aproximados y se basan en promedios de precios de grandes cadenas de supermercados y cortes envasados o packs. Los resultados pueden variar dependiendo de la tienda, el corte específico y la disponibilidad en el momento de la compra.
-        </p>
-      </footer>
     </main>
   );
 }
-
