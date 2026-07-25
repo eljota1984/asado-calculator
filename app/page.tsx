@@ -89,7 +89,7 @@ export default function Home() {
           {/* <div className="w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40"> */}
             <div className="flex flex-col items-center w-full max-w-sm rounded-[2rem] border border-red-500/40 bg-zinc-950 p-8 text-center shadow-2xl shadow-red-950/40">
             <img
-              src="/logo_transicion.png"
+              src="/logo_final.png"
               alt="Calculadora de Asados"
               className="h-40 w-auto md:h-56"
             />

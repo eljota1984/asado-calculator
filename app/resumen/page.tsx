@@ -364,7 +364,7 @@ export default function ResumenPage() {
 {/* 
                         </p> */}
                         <img
-                            src="/logo_final.png"
+                            src="logo_final.png"
                             alt="Calculadora de Asados"
                             className="h-40 w-auto md:h-56"
                         />
