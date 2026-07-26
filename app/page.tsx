@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import SiteHeader from "./components/SiteHeader";
 import ArticleCard from "./components/ArticleCard";
@@ -47,10 +48,20 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          <div className="relative flex min-h-[320px] items-center justify-center rounded-[2rem] border border-zinc-800 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.35),transparent_55%),linear-gradient(135deg,#18181b,#09090b)] text-[8rem]">
-            🥩
+          <div className="relative flex min-h-[320px] items-center justify-center rounded-[2rem] border border-zinc-800 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.35),transparent_55%),linear-gradient(135deg,#18181b,#09090b)]">
+            <Image
+              src="/logo_final.png"
+              alt="Calculadora de Asados"
+              width={260}
+              height={260}
+              className="h-auto w-[260px] md:w-[340px] object-contain drop-shadow-2xl"
+              priority
+            />
           </div>
+
+          {/* <div className="relative flex min-h-[320px] items-center justify-center rounded-[2rem] border border-zinc-800 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.35),transparent_55%),linear-gradient(135deg,#18181b,#09090b)] text-[8rem]">
+            🥩
+          </div> */}
         </section>
 
         <section className="grid gap-5 px-6 pb-10 md:grid-cols-3 md:px-10">
