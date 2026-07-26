@@ -7,7 +7,7 @@ export default function SiteHeader() {
       <Link href="/" className="flex items-center gap-3">
         <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-red-600/10 ring-1 ring-red-500/40">
           <Image
-            src="/logo.png"
+            src="/logo_final.png"
             alt="Calculadora de Asados"
             width={64}
             height={64}
