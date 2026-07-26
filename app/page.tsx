@@ -4,6 +4,12 @@ import SiteHeader from "./components/SiteHeader";
 import ArticleCard from "./components/ArticleCard";
 import { posts } from "./lib/posts";
 
+export const metadata = {
+  title: "Calculadora de Asados | Calcula carne, costos y compra sugerida",
+  description:
+    "Calcula cuánta carne comprar para un asado, estima costos por persona y organiza tu compra con recetas y consejos parrilleros.",
+};
+
 export default function Home() {
   const featuredPosts = posts.slice(0, 3);
 

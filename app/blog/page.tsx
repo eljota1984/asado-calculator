@@ -4,6 +4,12 @@ import ArticleCard from "../components/ArticleCard";
 import BlogCta from "../components/BlogCta";
 import { posts } from "../lib/posts";
 
+export const metadata = {
+  title: "Blog Parrillero | Recetas, consejos y opiniones para asados",
+  description:
+    "Lee recetas, consejos parrilleros, opiniones y guías para organizar mejores asados y calcular mejor tu compra.",
+};
+
 const categoryFilters = [
   {
     label: "Todos",
