@@ -4,7 +4,7 @@ import SiteHeader from "../../components/SiteHeader";
 import BlogCta from "../../components/BlogCta";
 import { posts } from "../../lib/posts";
 
-const siteUrl = "https://www.calculadoradeasados.cl";
+const siteUrl = "https://calculadoradeasados.cl";
 
 export async function generateMetadata({
   params,
