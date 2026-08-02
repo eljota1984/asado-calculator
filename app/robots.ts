@@ -1,4 +1,4 @@
-const siteUrl = "https://calculadoradeasados.cl/";
+const siteUrl = "https://www.calculadoradeasados.cl";
 
 export default function robots() {
   return {

@@ -1,6 +1,6 @@
 import { posts } from "./lib/posts";
 
-const siteUrl = "https://calculadoradeasados.cl/";
+const siteUrl = "https://www.calculadoradeasados.cl";;
 
 export default function sitemap() {
   const staticRoutes = [
