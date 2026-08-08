@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import SiteHeader from "../../components/SiteHeader";
 import BlogCta from "../../components/BlogCta";
 import { posts } from "../../lib/posts";
-
+import Image from "next/image";
 const siteUrl = "https://calculadoradeasados.cl";
 
 export async function generateMetadata({
@@ -30,6 +30,16 @@ export async function generateMetadata({
       type: "article",
       url: `${siteUrl}/blog/${post.slug}`,
       siteName: "Calculadora de Asados",
+      images: post.image
+        ? [
+          {
+            url: `${siteUrl}${post.image}`,
+            width: 1200,
+            height: 800,
+            alt: post.imageAlt ?? post.title,
+          },
+        ]
+        : undefined,
     },
     alternates: {
       canonical: `${siteUrl}/blog/${post.slug}`,
@@ -104,7 +114,20 @@ export default async function BlogPostPage({
             <p className="mt-4 text-sm text-zinc-500">
               ⏱ {post.readTime} · 📅 {post.date}
             </p>
+            {post.image && (
+              <div className="relative mt-8 h-72 overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-900 md:h-[420px]">
+                <Image
+                  src={post.image}
+                  alt={post.imageAlt ?? post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 900px"
+                  className="object-cover"
+                  priority
+                />
 
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              </div>
+            )}
             <p className="mt-6 text-base leading-8 text-zinc-300">
               {post.content.intro}
             </p>
