@@ -1,26 +1,70 @@
-import { posts } from "./lib/posts";
+import type {
+  MetadataRoute,
+} from "next";
 
-const siteUrl = "https://calculadoradeasados.cl";;
+import {
+  getAllPosts,
+} from "./lib/blog";
 
-export default function sitemap() {
-  const staticRoutes = [
-    "",
-    "/calculadora",
-    "/blog",
-    "/blog?categoria=recetas",
-    "/blog?categoria=consejos",
-    "/blog?categoria=opiniones",
+const siteUrl =
+  "https://calculadoradeasados.cl";
+
+export default function sitemap():
+  MetadataRoute.Sitemap {
+  const posts =
+    getAllPosts();
+
+  const staticPages:
+    MetadataRoute.Sitemap = [
+    {
+      url: siteUrl,
+      lastModified:
+        new Date(),
+      changeFrequency:
+        "weekly",
+      priority: 1,
+    },
+
+    {
+      url:
+        `${siteUrl}/calculadora`,
+      lastModified:
+        new Date(),
+      changeFrequency:
+        "monthly",
+      priority: 0.9,
+    },
+
+    {
+      url:
+        `${siteUrl}/blog`,
+      lastModified:
+        new Date(),
+      changeFrequency:
+        "weekly",
+      priority: 0.8,
+    },
   ];
 
-  const staticPages = staticRoutes.map((route) => ({
-    url: `${siteUrl}${route}`,
-    lastModified: new Date(),
-  }));
+  const blogPages:
+    MetadataRoute.Sitemap =
+    posts.map((post) => ({
+      url:
+        `${siteUrl}/blog/${post.slug}`,
 
-  const blogPages = posts.map((post) => ({
-    url: `${siteUrl}/blog/${post.slug}`,
-    lastModified: new Date(),
-  }));
+      lastModified:
+        new Date(
+          `${post.date}T00:00:00Z`
+        ),
 
-  return [...staticPages, ...blogPages];
+      changeFrequency:
+        "monthly" as const,
+
+      priority: 0.7,
+    }));
+
+  return [
+    ...staticPages,
+    ...blogPages,
+  ];
 }
