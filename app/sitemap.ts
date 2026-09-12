@@ -1,47 +1,32 @@
-import type {
-  MetadataRoute,
-} from "next";
+import type { MetadataRoute } from "next";
 
-import {
-  getAllPosts,
-} from "./lib/blog";
+import { getAllPosts } from "./lib/blog";
 
 const siteUrl =
   "https://calculadoradeasados.cl";
 
 export default function sitemap():
   MetadataRoute.Sitemap {
-  const posts =
-    getAllPosts();
+  const posts = getAllPosts();
 
   const staticPages:
     MetadataRoute.Sitemap = [
     {
       url: siteUrl,
-      lastModified:
-        new Date(),
-      changeFrequency:
-        "weekly",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
       priority: 1,
     },
-
     {
-      url:
-        `${siteUrl}/calculadora`,
-      lastModified:
-        new Date(),
-      changeFrequency:
-        "monthly",
+      url: `${siteUrl}/calculadora`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.9,
     },
-
     {
-      url:
-        `${siteUrl}/blog`,
-      lastModified:
-        new Date(),
-      changeFrequency:
-        "weekly",
+      url: `${siteUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
       priority: 0.8,
     },
   ];

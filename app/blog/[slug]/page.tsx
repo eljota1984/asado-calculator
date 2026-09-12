@@ -86,20 +86,31 @@ export async function generateMetadata({
       images:
         post.image
           ? [
-              {
-                url:
-                  `${siteUrl}${post.image}`,
-                width: 1200,
-                height: 675,
-                alt:
-                  post.imageAlt ??
-                  post.title,
-              },
-            ]
+            {
+              url:
+                `${siteUrl}${post.image}`,
+              width: 1200,
+              height: 675,
+              alt:
+                post.imageAlt ??
+                post.title,
+            },
+          ]
           : undefined,
     },
   };
 }
+const badgeClasses = {
+  red:
+    "border-red-500/30 bg-red-500/10 text-red-300",
+
+  yellow:
+    "border-yellow-500/30 bg-yellow-500/10 text-yellow-300",
+
+  green:
+    "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
+};
+
 
 export default async function BlogPostPage({
   params,
@@ -198,7 +209,19 @@ export default async function BlogPostPage({
           {/* CABECERA */}
           <header className="mt-8">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-red-300">
+              <span
+                className={`
+    rounded-full
+    border
+    px-3
+    py-1
+    text-[10px]
+    font-black
+    uppercase
+    tracking-[0.18em]
+    ${badgeClasses[post.accent]}
+  `}
+              >
                 {post.category}
               </span>
 
@@ -394,7 +417,7 @@ export default async function BlogPostPage({
                 }) => {
                   if (
                     typeof src !==
-                      "string" ||
+                    "string" ||
                     !src
                   ) {
                     return null;
@@ -464,43 +487,43 @@ export default async function BlogPostPage({
         {/* RELACIONADOS */}
         {relatedPosts.length >
           0 && (
-          <section className="border-t border-zinc-800 px-6 py-10 md:px-10 md:py-14">
-            <div className="mb-7 flex items-end justify-between gap-4">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-red-400">
-                  Sigue aprendiendo
-                </p>
+            <section className="border-t border-zinc-800 px-6 py-10 md:px-10 md:py-14">
+              <div className="mb-7 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-red-400">
+                    Sigue aprendiendo
+                  </p>
 
-                <h2 className="mt-2 text-3xl font-black text-white">
-                  También te puede
-                  interesar
-                </h2>
+                  <h2 className="mt-2 text-3xl font-black text-white">
+                    También te puede
+                    interesar
+                  </h2>
+                </div>
+
+                <Link
+                  href="/blog"
+                  className="hidden text-sm font-black text-yellow-300 transition hover:text-yellow-200 sm:block"
+                >
+                  Ver todos →
+                </Link>
               </div>
 
-              <Link
-                href="/blog"
-                className="hidden text-sm font-black text-yellow-300 transition hover:text-yellow-200 sm:block"
-              >
-                Ver todos →
-              </Link>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3">
-              {relatedPosts.map(
-                (relatedPost) => (
-                  <ArticleCard
-                    key={
-                      relatedPost.slug
-                    }
-                    post={
-                      relatedPost
-                    }
-                  />
-                )
-              )}
-            </div>
-          </section>
-        )}
+              <div className="grid gap-6 md:grid-cols-3">
+                {relatedPosts.map(
+                  (relatedPost) => (
+                    <ArticleCard
+                      key={
+                        relatedPost.slug
+                      }
+                      post={
+                        relatedPost
+                      }
+                    />
+                  )
+                )}
+              </div>
+            </section>
+          )}
       </div>
     </main>
   );
