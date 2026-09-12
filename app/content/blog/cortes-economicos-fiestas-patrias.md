@@ -5,7 +5,7 @@ category: "Consejos"
 excerpt: "Descubre cortes de carne convenientes para preparar un buen asado de Fiestas Patrias, combinar sabores y cuidar el presupuesto sin sacrificar la parrilla."
 readTime: "7 min de lectura"
 date: "2026-08-16"
-accent: "red"
+accent: "yellow"
 featured: false
 image: "/blog/cortes-economicos-fiestas-patrias.png"
 imageAlt: "Parrilla de Fiestas Patrias con carnes, chorizos y banderas chilenas"

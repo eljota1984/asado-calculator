@@ -5,7 +5,7 @@ category: "Guías"
 excerpt: "Aprende a usar la Calculadora de Asados para estimar cantidades, elegir carnes y organizar mejor tu compra."
 readTime: "5 min de lectura"
 date: "2026-08-15"
-accent: "red"
+accent: "green"
 featured: true
 image: "/blog/elegir-carne.jpg"
 imageAlt: "Distintos cortes de carne preparados para organizar un asado"
