@@ -23,16 +23,14 @@ type PageProps = {
     slug: string;
   }>;
 };
-
 export function generateStaticParams() {
-  return getAllPosts().map(
-    (post) => ({
-      slug: post.slug,
-    })
-  );
+  const posts = getAllPosts();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
 }
 
-export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
