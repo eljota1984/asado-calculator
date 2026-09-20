@@ -10,7 +10,7 @@ featured: false
 image: "/blog/guia-tipos-de-carbon-para-asado.jpg"
 imageAlt: "Distintos tipos de carbón para parrilla junto a una barbacoa encendida"
 imageCaption: "Elegir el carbón adecuado ayuda a controlar mejor la temperatura, la duración del fuego y el sabor del asado."
-tool: "Calcular mi asado"
+tool: "Planificar mi asado"
 toolPath: "/calculadora"
 ---
 

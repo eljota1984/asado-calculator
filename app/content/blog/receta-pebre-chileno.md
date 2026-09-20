@@ -10,7 +10,7 @@ featured: false
 image: "/blog/receta-pebre-chileno.jpg"
 imageAlt: "Pebre chileno casero servido en un pocillo junto a pan y parrilla"
 imageCaption: "El pebre chileno es uno de los acompañamientos clásicos del asado: fresco, simple y lleno de sabor."
-tool: "Calcular mi asado"
+tool: "Planificar mi próximo asado"
 toolPath: "/calculadora"
 ---
 

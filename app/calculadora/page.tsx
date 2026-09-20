@@ -64,9 +64,9 @@ export default function Home() {
 
   const hayCortes =
     cortesSeleccionados.vacuno.length +
-      cortesSeleccionados.cerdo.length +
-      cortesSeleccionados.pollo.length +
-      cortesSeleccionados.embutidos.length >
+    cortesSeleccionados.cerdo.length +
+    cortesSeleccionados.pollo.length +
+    cortesSeleccionados.embutidos.length >
     0;
 
   const irAResumen = () => {
@@ -123,7 +123,21 @@ export default function Home() {
         </div>
 
         {/* CABECERA */}
-        <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
+        <section className="mx-auto mb-8 max-w-3xl text-center">
+          <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-red-400">
+            Planifica tu parrilla
+          </p>
+
+          <h1 className="text-3xl font-black tracking-tight text-white md:text-5xl">
+            Calculadora de Asados
+          </h1>
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-zinc-400 md:text-base">
+            Calcula cuánta carne y carbón necesitas según la cantidad de invitados
+            y organiza mejor el presupuesto de tu próximo asado.
+          </p>
+        </section>
+        {/* <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
           <div className="flex flex-col items-center gap-5 text-center">
             <div>
               <div className="mb-4 flex justify-center">
@@ -144,9 +158,10 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* PERSONAS */}
+
         <SelectorPersonas
           adultos={adultos}
           setAdultos={setAdultos}
@@ -189,7 +204,134 @@ export default function Home() {
           </div>
         </button>
       </div>
+      <section className="mx-auto mt-12 max-w-6xl px-4 pb-12">
+        <div className="rounded-[2rem] border border-zinc-800 bg-zinc-950/70 p-6 md:p-10">
 
+          <p className="text-xs font-black uppercase tracking-[0.25em] text-red-400">
+            Cómo funciona
+          </p>
+
+          <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">
+            Planifica tu asado en pocos pasos
+          </h2>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-zinc-800 bg-black/40 p-5">
+              <span className="text-sm font-black text-red-400">
+                01
+              </span>
+
+              <h3 className="mt-2 font-black text-white">
+                Indica tus invitados
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Define cuántas personas asistirán y su nivel estimado
+                de consumo.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-800 bg-black/40 p-5">
+              <span className="text-sm font-black text-red-400">
+                02
+              </span>
+
+              <h3 className="mt-2 font-black text-white">
+                Selecciona tus carnes
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Elige los cortes y productos que quieres incluir en tu
+                próximo asado.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-800 bg-black/40 p-5">
+              <span className="text-sm font-black text-red-400">
+                03
+              </span>
+
+              <h3 className="mt-2 font-black text-white">
+                Obtén tu estimación
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-zinc-400">
+                Calcula cantidades y organiza mejor el presupuesto de
+                tu compra.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10 border-t border-zinc-800 pt-8">
+
+            <h2 className="text-2xl font-black text-white">
+              Guías para planificar mejor tu asado
+            </h2>
+
+            <p className="mt-2 text-sm leading-6 text-zinc-400">
+              Resuelve las dudas más frecuentes antes de comprar.
+            </p>
+
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+
+              <Link
+                href="/blog/cuanta-carne-comprar-por-persona"
+                className="rounded-2xl border border-zinc-800 bg-black/40 p-5 transition hover:-translate-y-1 hover:border-red-500/40"
+              >
+                <p className="font-black text-white">
+                  ¿Cuánta carne por persona?
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  Calcula los gramos y kilos según el número de
+                  invitados.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-black text-red-400">
+                  Ver guía →
+                </span>
+              </Link>
+
+              <Link
+                href="/blog/cuanto-carbon-para-10-kg-de-carne"
+                className="rounded-2xl border border-zinc-800 bg-black/40 p-5 transition hover:-translate-y-1 hover:border-red-500/40"
+              >
+                <p className="font-black text-white">
+                  ¿Cuánto carbón necesito?
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  Estima cuánto carbón comprar según la cantidad de
+                  carne.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-black text-red-400">
+                  Ver guía →
+                </span>
+              </Link>
+
+              <Link
+                href="/blog/cuanto-cuesta-un-asado-para-10-20-50-y-100-personas"
+                className="rounded-2xl border border-zinc-800 bg-black/40 p-5 transition hover:-translate-y-1 hover:border-red-500/40"
+              >
+                <p className="font-black text-white">
+                  ¿Cuánto cuesta un asado?
+                </p>
+
+                <p className="mt-2 text-sm leading-6 text-zinc-400">
+                  Revisa cantidades y presupuesto para grupos pequeños
+                  y grandes.
+                </p>
+
+                <span className="mt-4 inline-block text-sm font-black text-red-400">
+                  Ver guía →
+                </span>
+              </Link>
+
+            </div>
+          </div>
+        </div>
+      </section>
       <footer className="relative mx-auto mt-8 max-w-5xl border-t border-zinc-800 py-5 text-center text-xs leading-5 text-zinc-500">
         <p>
           * Los cálculos de carne y costos son aproximados y se basan en

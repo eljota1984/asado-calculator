@@ -13,13 +13,34 @@ import {
 
 export const metadata: Metadata = {
   title:
-    "Calculadora de Asados | Calcula carne, costos y compra sugerida",
+    "Asado Inteligente | Recetas, guías y consejos para tu asado",
 
   description:
-    "Calcula cuánta carne comprar para un asado, estima costos por persona y organiza tu compra con recetas y consejos parrilleros.",
+    "Aprende a planificar mejores asados con recetas, guías, consejos sobre carne y carbón, y herramientas para calcular cantidades y presupuesto.",
 
   alternates: {
-    canonical: "https://calculadoradeasados.cl",
+    canonical:
+      "https://calculadoradeasados.cl",
+  },
+
+  openGraph: {
+    title:
+      "Asado Inteligente | Recetas, guías y consejos para tu asado",
+
+    description:
+      "Recetas, guías, consejos y herramientas para planificar tu próximo asado.",
+
+    url:
+      "https://calculadoradeasados.cl",
+
+    siteName:
+      "Calculadora de Asados",
+
+    locale:
+      "es_CL",
+
+    type:
+      "website",
   },
 };
 
@@ -93,56 +114,54 @@ export default function Home() {
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.22),transparent_35%),radial-gradient(circle_at_bottom_left,rgba(234,179,8,0.12),transparent_28%)]" />
 
       <div className="relative mx-auto w-full max-w-6xl overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/85 shadow-2xl shadow-red-950/20">
+
         <SiteHeader />
 
         {/* HERO */}
         <section className="grid gap-8 px-6 py-10 md:grid-cols-2 md:px-10 md:py-14">
-          <div>
+
+          {/* TEXTO HERO */}
+          <div className="flex flex-col justify-center">
+
             <p className="mb-4 text-xs font-black uppercase tracking-[0.35em] text-red-400">
-              Planifica mejor tu parrilla
+              Asado Inteligente
             </p>
 
             <h1 className="text-4xl font-black leading-tight tracking-tight text-white md:text-6xl">
-              Calcula tu asado sin
-              quedarte{" "}
+              Todo para planificar un{" "}
               <span className="text-yellow-400">
-                corto
-              </span>{" "}
-              ni comprar{" "}
-              <span className="text-yellow-400">
-                de más
+                mejor asado
               </span>
             </h1>
 
             <p className="mt-5 max-w-xl text-sm leading-7 text-zinc-400 md:text-base">
-              Define kilos ideales
-              según cantidad de
-              personas, apetito y
-              cortes. Además, estima
-              costos y genera una
-              compra sugerida para que
-              solo te preocupes de
-              disfrutar.
+              Recetas, guías, consejos y herramientas para calcular
+              cantidades, organizar tu compra y preparar tu próximo
+              asado sin quedarte corto ni comprar de más.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+
               <Link
                 href="/calculadora"
-                className="rounded-2xl bg-red-600 px-6 py-4 text-center text-sm font-black text-white shadow-lg shadow-red-950/40 transition hover:bg-red-500"
+                className="rounded-2xl bg-red-600 px-6 py-4 text-center text-sm font-black text-white shadow-lg shadow-red-950/40 transition hover:-translate-y-0.5 hover:bg-red-500"
               >
-                Calcular mi asado
+                Ir a la Calculadora de Asados
               </Link>
 
               <Link
-                href="#blog"
-                className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-6 py-4 text-center text-sm font-black text-yellow-200 transition hover:bg-yellow-500/20"
+                href="/blog"
+                className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-6 py-4 text-center text-sm font-black text-yellow-200 transition hover:-translate-y-0.5 hover:bg-yellow-500/20"
               >
-                Ver artículos
+                Explorar guías y recetas
               </Link>
+
             </div>
           </div>
 
+          {/* LOGO */}
           <div className="relative flex min-h-[320px] items-center justify-center overflow-hidden rounded-[2rem] border border-zinc-800 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.35),transparent_55%),linear-gradient(135deg,#18181b,#09090b)]">
+
             <div className="absolute h-48 w-48 rounded-full bg-red-600/20 blur-3xl" />
 
             <Image
@@ -154,6 +173,7 @@ export default function Home() {
               priority
             />
           </div>
+
         </section>
 
         {/* BLOG */}
@@ -162,24 +182,23 @@ export default function Home() {
             id="blog"
             className="border-t border-zinc-800/80 px-6 py-10 md:px-10 md:py-14"
           >
+
+            {/* CABECERA BLOG */}
             <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.3em] text-red-400">
-                  Aprende antes de
-                  encender la parrilla
+                  Aprende antes de encender la parrilla
                 </p>
 
                 <h2 className="mt-3 text-3xl font-black tracking-tight text-white md:text-4xl">
-                  Guías y consejos
-                  parrilleros
+                  Guías, recetas y consejos parrilleros
                 </h2>
 
                 <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-400">
-                  Aprende a utilizar
-                  nuestras herramientas,
-                  calcular mejor tus
-                  cantidades y organizar
-                  tu próximo asado.
+                  Aprende a elegir cortes, calcular cantidades,
+                  organizar tu presupuesto y preparar mejores asados
+                  con nuestras guías y recetas.
                 </p>
               </div>
 
@@ -189,16 +208,21 @@ export default function Home() {
               >
                 Ver todos los artículos →
               </Link>
+
             </div>
 
             <div className="grid gap-5 lg:grid-cols-[1.45fr_0.85fr]">
-              {/* DESTACADO */}
+
+              {/* ARTÍCULO DESTACADO */}
               <Link
                 href={`/blog/${featured.slug}`}
                 className="group overflow-hidden rounded-[2rem] border border-zinc-800 bg-black/30 transition hover:-translate-y-1 hover:border-red-500/40 hover:shadow-2xl hover:shadow-red-950/25"
               >
                 <article>
+
+                  {/* IMAGEN */}
                   <div className="relative aspect-[16/8.3] overflow-hidden bg-zinc-900">
+
                     {featured.image ? (
                       <Image
                         src={
@@ -224,10 +248,14 @@ export default function Home() {
                     <span className="absolute left-5 top-5 rounded-full border border-yellow-400/30 bg-black/70 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-yellow-300 backdrop-blur-md">
                       Artículo destacado
                     </span>
+
                   </div>
 
+                  {/* CONTENIDO */}
                   <div className="p-6 md:p-8">
+
                     <div className="flex flex-wrap items-center gap-2 text-xs">
+
                       <span className="font-black uppercase tracking-wider text-red-400">
                         {featured.category}
                       </span>
@@ -251,6 +279,7 @@ export default function Home() {
                           featured.readTime
                         }
                       </span>
+
                     </div>
 
                     <h3 className="mt-4 text-2xl font-black leading-tight text-white transition group-hover:text-red-300 md:text-3xl">
@@ -264,12 +293,15 @@ export default function Home() {
                     <p className="mt-6 text-sm font-black text-yellow-300 transition group-hover:translate-x-1">
                       Leer artículo →
                     </p>
+
                   </div>
+
                 </article>
               </Link>
 
-              {/* SECUNDARIOS */}
+              {/* ARTÍCULOS SECUNDARIOS */}
               <div className="flex flex-col gap-5">
+
                 {sidePosts.map(
                   (post) => (
                     <SideArticle
@@ -283,13 +315,16 @@ export default function Home() {
                   href="/blog"
                   className="flex min-h-[90px] flex-1 items-center justify-center rounded-3xl border border-dashed border-red-500/30 bg-red-500/5 px-6 text-center text-sm font-black text-red-300 transition hover:border-red-500/60 hover:bg-red-500/10"
                 >
-                  Explorar recetas,
-                  guías y consejos →
+                  Explorar recetas, guías y consejos →
                 </Link>
+
               </div>
+
             </div>
+
           </section>
         )}
+
       </div>
     </main>
   );

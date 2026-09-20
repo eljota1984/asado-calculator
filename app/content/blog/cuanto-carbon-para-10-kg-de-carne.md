@@ -10,7 +10,7 @@ featured: false
 image: "/blog/cuanto-carbon-para-10-kg-de-carne.png"
 imageAlt: "Carbón encendido en una parrilla preparado para cocinar diez kilos de carne"
 imageCaption: "La cantidad de carbón necesaria depende del tiempo de cocción, el tipo de combustible y la forma en que distribuyas las brasas."
-tool: "Calcular mi asado"
+tool: "Calcular carne y carbón"
 toolPath: "/calculadora"
 ---
 
