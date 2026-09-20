@@ -52,7 +52,7 @@ export async function generateMetadata({
 
   return {
     title:
-      `${post.title} | Calculadora de Asados`,
+      `${post.seoTitle ?? post.title} | Calculadora de Asados`,
 
     description:
       post.excerpt,
