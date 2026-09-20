@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import SiteHeader from "./components/SiteHeader";
 
@@ -10,12 +11,16 @@ import {
   type BlogPost,
 } from "./lib/blog";
 
-export const metadata = {
+export const metadata: Metadata = {
   title:
     "Calculadora de Asados | Calcula carne, costos y compra sugerida",
 
   description:
     "Calcula cuánta carne comprar para un asado, estima costos por persona y organiza tu compra con recetas y consejos parrilleros.",
+
+  alternates: {
+    canonical: "https://calculadoradeasados.cl",
+  },
 };
 
 function SideArticle({

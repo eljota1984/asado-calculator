@@ -1,5 +1,5 @@
 ---
-slug: "receta-pebre-chileno"
+slug: "pebre-chileno-para-asados"
 title: "Cómo hacer pebre chileno: receta fácil para acompañar el asado"
 category: "Recetas"
 excerpt: "Prepara un pebre chileno fresco y sabroso con tomate, cebolla, cilantro, ají y limón, ideal para choripanes, carnes y pan."

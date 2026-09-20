@@ -1,5 +1,5 @@
 ---
-slug: "cuanta-carne-por-persona-para-un-asado"
+slug: "cuanta-carne-comprar-por-persona"
 title: "¿Cuánta carne por persona calcular para un asado?"
 category: "Consejos"
 excerpt: "Aprende cuánta carne calcular por persona para un asado según adultos, niños, apetito, acompañamientos y variedad de carnes."
