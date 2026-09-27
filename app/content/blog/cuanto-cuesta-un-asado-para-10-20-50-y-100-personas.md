@@ -1,207 +1,389 @@
 ---
 slug: "cuanto-cuesta-un-asado-para-10-20-50-y-100-personas"
+
 title: "¿Cuánto cuesta un asado para 10, 20, 50 y 100 personas?"
+
+seoTitle: "Cuánto cuesta un asado para 10, 20, 50 y 100 personas"
+
 category: "Guías"
-excerpt: "Aprende a estimar el presupuesto de un asado para grupos pequeños y grandes considerando cantidad de carne, cortes, acompañamientos y costos por persona."
-readTime: "8 min de lectura"
+
+excerpt: "Calcula el presupuesto de un asado para 10, 20, 50 o 100 personas considerando carne, carbón, acompañamientos, bebidas y costo por persona."
+
+readTime: "9 min de lectura"
+
 date: "2026-09-17"
+
 accent: "green"
+
 featured: false
+
 image: "/blog/cuanto-cuesta-un-asado-para-10-20-50-y-100-personas.png"
-imageAlt: "Mesa preparada para un asado grande con carnes y acompañamientos"
-imageCaption: "El costo de un asado depende más de la combinación de carnes y del consumo por persona que del número de invitados por sí solo."
+
+imageAlt: "Mesa preparada para calcular el costo de un asado para distintos grupos de personas"
+
+imageCaption: "El presupuesto de un asado depende de la cantidad de carne, los cortes elegidos, el carbón, los acompañamientos y las bebidas."
+
 tool: "Calcular presupuesto del asado"
+
 toolPath: "/calculadora"
 ---
 
-Una de las preguntas que aparece inmediatamente después de calcular la carne es **cuánto cuesta hacer un asado**.
+Saber **cuánto cuesta un asado** no depende solamente del número de invitados.
 
-No existe un precio único.
+El presupuesto cambia según la cantidad de carne, los cortes elegidos, el carbón, los acompañamientos, las bebidas y otros gastos.
 
-El costo depende de:
+Por eso, en lugar de utilizar un precio fijo que rápidamente puede quedar desactualizado, puedes calcular el costo de tu asado a partir de las cantidades que realmente necesitas.
 
-- cantidad de invitados;
-- consumo por persona;
-- cortes seleccionados;
-- presencia de niños;
-- embutidos;
-- acompañamientos;
-- carbón;
-- bebidas.
+## ¿Cuánto cuesta un asado? La fórmula básica
 
-Por eso resulta más útil aprender a construir el presupuesto que memorizar una cifra fija.
+Una forma práctica de calcularlo es:
 
-## Primero calcula la cantidad de carne
+**carnes + carbón + acompañamientos + bebidas + extras = costo total del asado**
 
-Antes de hablar de dinero, necesitas saber aproximadamente cuántos kilos comprarás.
+Después puedes calcular:
 
-Como referencia general para adultos:
+**costo total ÷ número de personas = costo aproximado por persona**
 
-**350 a 500 gramos de carne cruda por persona.**
+El primer paso, por lo tanto, es saber cuántos kilos de carne comprar.
 
-Para un cálculo intermedio podemos utilizar unos **400 gramos por adulto**.
+## Cantidad de carne para 10, 20, 50 y 100 personas
 
-Eso significa aproximadamente:
+Tomando como referencia aproximadamente **400 gramos de carne cruda por adulto de consumo normal**:
 
-- 10 adultos → 4 kg;
-- 20 adultos → 8 kg;
-- 50 adultos → 20 kg;
-- 100 adultos → 40 kg.
+| Personas | Carne aproximada |
+|---:|---:|
+| 10 personas | 4 kg |
+| 20 personas | 8 kg |
+| 50 personas | 20 kg |
+| 100 personas | 40 kg |
 
-Estas cifras pueden cambiar si hay niños, muchas entradas o invitados de alto consumo.
+Estas cantidades pueden cambiar si hay niños, muchas entradas o invitados de mayor consumo.
+
+Si quieres hacer un cálculo más detallado, revisa nuestra guía [¿Cuánta carne necesito para un asado?](/blog/cuanta-carne-necesito-para-un-asado).
+
+## Cómo calcular el costo de la carne
+
+Una vez que sabes cuántos kilos necesitas, utiliza:
+
+**kilos de carne × precio promedio por kilo = costo estimado de carnes**
+
+Por ejemplo, si necesitas 8 kg y la combinación de carnes que elegiste tiene un precio promedio de $10.000 por kilo:
+
+**8 × $10.000 = $80.000**
+
+Este valor es solamente un ejemplo matemático.
+
+Debes reemplazar los $10.000 por el precio real de los productos que vas a comprar.
+
+## Tabla rápida para calcular tu presupuesto
+
+| Personas | Carne aproximada | Fórmula para calcular carne |
+|---:|---:|---|
+| 10 | 4 kg | 4 × precio promedio por kg |
+| 20 | 8 kg | 8 × precio promedio por kg |
+| 50 | 20 kg | 20 × precio promedio por kg |
+| 100 | 40 kg | 40 × precio promedio por kg |
+
+Esta fórmula permite mantener el cálculo actualizado aunque cambien los precios.
 
 ## ¿Cuánto cuesta un asado para 10 personas?
 
-Para 10 adultos de consumo normal puedes considerar unos **4 kg de carne**.
+Para 10 adultos de consumo normal puedes considerar aproximadamente:
 
-En lugar de comprar todo en un solo corte, podrías combinar:
+**4 kg de carne.**
+
+Una compra podría distribuirse entre:
 
 - vacuno;
 - cerdo;
 - pollo;
 - longanizas.
 
-El costo final dependerá del precio por kilo de cada producto.
+Si tu combinación tiene un precio promedio de **P pesos por kilo**, el cálculo sería:
 
-Una mezcla de cortes económicos y medios tendrá un costo muy diferente a una parrilla basada exclusivamente en lomo vetado, entraña o filete.
+**4 × P = costo de las carnes**
+
+Después debes sumar carbón, acompañamientos, bebidas y otros gastos.
+
+### Ejemplo
+
+Si el promedio de tu compra fuera $10.000 por kilo:
+
+**4 kg × $10.000 = $40.000 en carnes.**
+
+A ese monto todavía debes agregar el resto del asado.
 
 ## ¿Cuánto cuesta un asado para 20 personas?
 
-Para 20 adultos, una referencia sencilla puede ser aproximadamente **8 kg de carne**.
+Para 20 adultos, una referencia sencilla es:
 
-En grupos de este tamaño conviene comenzar a distribuir el menú.
+**8 kg de carne.**
 
-Por ejemplo:
+Una distribución posible sería:
 
-- 4 kg de vacuno;
-- 2 kg de cerdo;
-- 1 kg de pollo;
-- 1 kg de embutidos.
+| Producto | Cantidad |
+|---|---:|
+| Vacuno | 4 kg |
+| Cerdo | 2 kg |
+| Pollo | 1 kg |
+| Longanizas | 1 kg |
+| **Total** | **8 kg** |
 
-La ventaja de combinar productos es que puedes ajustar el presupuesto sin reducir demasiado la cantidad.
+Luego multiplicas cada producto por su precio real.
+
+Otra opción es calcular el precio promedio de toda la mezcla:
+
+**8 kg × precio promedio por kilo.**
+
+Por ejemplo, con un promedio hipotético de $10.000 por kilo:
+
+**8 × $10.000 = $80.000 en carnes.**
 
 ## ¿Cuánto cuesta un asado para 50 personas?
 
-Cuando llegas a 50 invitados, comprar al ojo deja de ser una buena idea.
+En un asado para 50 personas la planificación se vuelve mucho más importante.
 
-Con una referencia de 400 gramos por adulto:
+Con una referencia de 400 g por adulto:
 
 **50 × 400 g = 20 kg de carne.**
 
-Una diferencia de solo 100 gramos por persona equivale a:
+Una diferencia de solamente 100 gramos por persona equivaldría a:
 
 **5 kg adicionales de carne.**
 
-En grupos grandes, pequeños errores en la estimación pueden representar bastante dinero.
+Por eso, en grupos grandes, calcular correctamente las cantidades puede generar una diferencia importante en el presupuesto.
+
+La fórmula para las carnes sería:
+
+**20 kg × precio promedio por kilo.**
+
+Si usamos nuevamente $10.000 por kilo solamente como ejemplo:
+
+**20 × $10.000 = $200.000 en carnes.**
+
+Todavía faltaría agregar los demás componentes del evento.
 
 ## ¿Cuánto cuesta un asado para 100 personas?
 
-Para 100 adultos con una referencia de 400 gramos:
+Para 100 adultos de consumo normal:
 
 **100 × 400 g = 40 kg de carne.**
 
-Pero esto es solamente una base.
+Aquí incluso una pequeña diferencia en el consumo cambia bastante el resultado.
 
-Para un evento de 100 personas es especialmente importante considerar:
+Por ejemplo:
 
-- cantidad de niños;
-- horarios;
-- si habrá empanadas o entradas;
-- cantidad de choripanes;
-- acompañamientos;
-- duración del evento;
-- quién cocinará.
+| Consumo por persona | Carne total |
+|---:|---:|
+| 300 g | 30 kg |
+| 350 g | 35 kg |
+| 400 g | 40 kg |
+| 450 g | 45 kg |
+| 500 g | 50 kg |
 
-## ¿Cuánto cobra un asador para 100 personas?
+Por eso no conviene calcular automáticamente 500 gramos para todos si habrá niños, entradas y acompañamientos.
 
-El costo de contratar a un asador es distinto al costo de comprar los alimentos.
+Con una base de 40 kg:
 
-Un servicio puede considerar:
+**40 × precio promedio por kilo = costo estimado de carnes.**
 
-- horas de trabajo;
-- preparación previa;
-- traslado;
-- ayudantes;
-- parrillas y equipamiento;
-- montaje;
-- limpieza.
+Si el promedio fuera hipotéticamente $10.000:
 
-Por eso conviene separar al menos:
+**40 × $10.000 = $400.000 en carnes.**
 
-**alimentos + combustible + servicio de parrilla + otros gastos.**
+Nuevamente, este valor no representa un precio de mercado: sirve solamente para mostrar cómo hacer el cálculo.
 
-## El costo por persona es una métrica muy útil
+## El precio promedio por kilo depende de la mezcla
 
-Puedes calcular:
+El presupuesto cambia mucho según los productos elegidos.
 
-**costo total ÷ número de adultos que pagan.**
+No es lo mismo comprar solamente cortes de vacuno de mayor precio que distribuir la compra entre:
 
-Por ejemplo, si el gasto total fuera de $180.000 y lo compartieran 12 adultos:
+- vacuno;
+- cerdo;
+- pollo;
+- longanizas;
+- cortes más económicos.
 
-**$180.000 ÷ 12 = $15.000 por persona.**
+Por ejemplo, puedes utilizar un corte de vacuno como protagonista y complementar con alternativas de menor costo.
 
-Este cálculo ayuda a comparar distintas opciones.
+De esa forma reduces el precio promedio por kilo sin necesariamente reducir la cantidad total.
 
-## Cómo bajar el presupuesto sin reducir demasiado la comida
+## No calcules solamente la carne
 
-### Combina cortes
+La carne suele representar una parte importante del gasto, pero no es el presupuesto completo.
 
-No necesitas comprar todo premium.
+Considera también:
+
+| Categoría | Ejemplos |
+|---|---|
+| Carne | Vacuno, cerdo, pollo, longanizas |
+| Combustible | Carbón |
+| Acompañamientos | Ensaladas, papas, verduras |
+| Pan y entradas | Marraqueta, choripanes, empanadas |
+| Salsas | Pebre, mayonesa, otras salsas |
+| Bebidas | Bebidas, agua, jugos |
+| Extras | Hielo, servilletas, platos, bolsas |
+
+De esta forma reduces el riesgo de descubrir gastos importantes después de haber definido el presupuesto.
+
+## ¿Cuánto carbón debes incluir?
+
+Una referencia inicial para un asado tradicional es aproximadamente:
+
+**1 kg de carbón por cada 2 kg de carne.**
+
+Por ejemplo:
+
+| Carne | Carbón orientativo |
+|---:|---:|
+| 4 kg | 2 a 3 kg |
+| 8 kg | 4 a 6 kg |
+| 20 kg | 10 a 14 kg |
+| 40 kg | 20 kg o más según duración |
+
+El consumo real depende de la parrilla, el viento, el tipo de carbón y cuánto tiempo permanecerá encendido el fuego.
+
+Para calcularlo con más detalle revisa:
+
+[¿Cuánto carbón comprar para un asado?](/blog/cuanto-carbon-comprar-para-un-asado)
+
+## Cómo calcular el costo total
+
+Puedes utilizar esta estructura:
+
+| Concepto | Cálculo |
+|---|---|
+| Carne | kilos × precio por kilo |
+| Carbón | kilos × precio por kilo o bolsa |
+| Pan | cantidad × precio |
+| Acompañamientos | suma de ingredientes |
+| Bebidas | cantidad × precio |
+| Hielo y extras | suma de productos |
+| **Total** | **suma de todos los gastos** |
+
+Luego:
+
+**costo total ÷ número de participantes = costo aproximado por persona**
+
+## Ejemplo de presupuesto para 20 personas
+
+Supongamos que tu planificación termina en:
+
+- 8 kg de carnes;
+- carbón;
+- pan;
+- ensaladas;
+- pebre;
+- bebidas;
+- hielo.
+
+Si las carnes cuestan $80.000 y el resto de los productos suma $70.000:
+
+**$80.000 + $70.000 = $150.000**
+
+Entonces:
+
+**$150.000 ÷ 20 personas = $7.500 por persona**
+
+Este ejemplo sirve para comprender el método. Los precios reales dependerán de lo que compres.
+
+## Presupuesto económico, medio o premium
+
+Una de las variables más importantes es la elección de las carnes.
+
+### Presupuesto más económico
+
+Puedes combinar:
+
+- pollo;
+- cerdo;
+- longanizas;
+- cortes de vacuno más económicos.
+
+### Presupuesto intermedio
 
 Puedes utilizar:
 
-- un corte principal;
-- un corte económico;
+- uno o dos cortes de vacuno;
 - cerdo;
-- pollo;
-- longanizas.
+- longanizas;
+- algún producto adicional.
 
-### Aprovecha los acompañamientos
+### Presupuesto más alto
 
-Pebre, ensaladas, papas y verduras ayudan a construir un menú completo.
+El costo aumenta cuando gran parte de la compra corresponde a cortes de mayor precio.
 
-### Calcula antes de comprar
+Lo importante es comparar el **precio promedio de toda la selección**, no solamente el precio de un producto.
 
-Comprar varios kilos extra "por si acaso" puede aumentar mucho el total.
+## Cómo reducir el costo del asado
 
-### Compara precio por kilo
+Combinar distintos tipos de carne suele ser una de las formas más efectivas de controlar el presupuesto.
 
-Cuando compares carnes, observa el precio por kilo y el rendimiento del producto.
+También ayuda calcular correctamente la cantidad por persona, considerar las entradas dentro del consumo total y evitar comprar varios kilos adicionales solamente "por si acaso".
 
-## No olvides el carbón
+## No olvides los cortes con hueso
 
-Como referencia inicial, algunos asados tradicionales pueden utilizar aproximadamente **1 kg de carbón por cada 2 kg de carne**, ajustando según el tipo de combustible y la duración de la cocción.
+El rendimiento también afecta el presupuesto.
 
-## Otros gastos que suelen olvidarse
+Un kilo de carne deshuesada no entrega necesariamente la misma cantidad comestible que un kilo de:
 
-Además de la carne puedes necesitar:
+- costillar;
+- pollo con hueso;
+- otros cortes con una proporción importante de hueso o grasa.
 
-- carbón;
-- pan;
-- hielo;
-- bebidas;
-- ensaladas;
-- pebre;
-- sal;
-- salsas;
-- platos o servilletas;
-- bolsas;
-- transporte.
+Si compras este tipo de productos, considera su rendimiento al calcular las cantidades.
 
-## Presupuesto para 10, 20, 50 o 100 personas
+## ¿Cuánto cuesta por persona?
 
-Una forma útil de trabajar es:
+Después de obtener el total, utiliza:
 
-1. calcular cuánta carne necesita el grupo;
-2. seleccionar los cortes;
-3. multiplicar las cantidades por los precios;
-4. agregar carbón y acompañamientos;
-5. dividir el total entre quienes pagan.
+**costo total ÷ cantidad de invitados**
 
-Ese método funciona tanto para 10 como para 100 personas.
+Por ejemplo:
 
-## Haz el cálculo con tus propios invitados
+**$200.000 ÷ 20 = $10.000 por persona**
 
-Nuestra Calculadora de Asados permite seleccionar diferentes tipos de invitados y cortes para obtener una estimación adaptada a tu reunión.
+Esto permite comparar fácilmente diferentes menús.
 
-[Calcular presupuesto de mi asado](/calculadora)
+También sirve cuando varias personas dividirán los gastos.
+
+## ¿Y si hay niños?
+
+No todos los invitados deberían considerarse con el mismo consumo.
+
+Un niño puede necesitar bastante menos carne que un adulto.
+
+Si el grupo incluye muchos niños, calcular 400 o 500 gramos para todos puede inflar innecesariamente el presupuesto.
+
+Puedes revisar nuestra guía específica:
+
+[¿Cuánta carne por persona para un asado?](/blog/cuanta-carne-comprar-por-persona)
+
+## Primero calcula las cantidades
+
+Antes de armar el presupuesto necesitas saber cuánto vas a comprar.
+
+Puedes comenzar con:
+
+[¿Cuánta carne necesito para un asado?](/blog/cuanta-carne-necesito-para-un-asado)
+
+y después calcular:
+
+[¿Cuánto carbón comprar para un asado?](/blog/cuanto-carbon-comprar-para-un-asado)
+
+Finalmente puedes utilizar nuestra [Calculadora de Asados](/calculadora) para trabajar con las características reales de tu reunión.
+
+## El presupuesto depende más del menú que del número de personas
+
+Dos asados para 20 personas pueden tener costos muy diferentes.
+
+Uno puede utilizar carnes económicas, muchos acompañamientos y pocas bebidas.
+
+Otro puede utilizar cortes premium y una selección más amplia de productos.
+
+Por eso la mejor forma de responder **cuánto cuesta un asado** es calcular:
+
+**cantidad × precio real de cada producto.**
+
+Con esa fórmula puedes estimar un asado para 10, 20, 50 o 100 personas sin depender de precios que rápidamente pueden quedar desactualizados.

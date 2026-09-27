@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import ArticleCard from "../../components/ArticleCard";
 import SiteHeader from "../../components/SiteHeader";
@@ -15,14 +17,14 @@ import {
   getRelatedPosts,
 } from "../../lib/blog";
 
-const siteUrl =
-  "https://calculadoradeasados.cl";
+const siteUrl = "https://calculadoradeasados.cl";
 
 type PageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
+
 export function generateStaticParams() {
   const posts = getAllPosts();
 
@@ -31,76 +33,59 @@ export function generateStaticParams() {
   }));
 }
 
-
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  const post =
-    getPostBySlug(slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     return {
-      title:
-        "Artículo no encontrado | Calculadora de Asados",
+      title: "Artículo no encontrado | Calculadora de Asados",
     };
   }
 
-  const canonicalUrl =
-    `${siteUrl}/blog/${post.slug}`;
+  const canonicalUrl = `${siteUrl}/blog/${post.slug}`;
 
   return {
-    title:
-      `${post.seoTitle ?? post.title} | Calculadora de Asados`,
+    title: `${post.seoTitle ?? post.title} | Calculadora de Asados`,
 
-    description:
-      post.excerpt,
+    description: post.excerpt,
 
     alternates: {
-      canonical:
-        canonicalUrl,
+      canonical: canonicalUrl,
     },
 
     openGraph: {
-      title:
-        post.title,
+      title: post.title,
 
-      description:
-        post.excerpt,
+      description: post.excerpt,
 
-      url:
-        canonicalUrl,
+      url: canonicalUrl,
 
-      siteName:
-        "Calculadora de Asados",
+      siteName: "Calculadora de Asados",
 
-      type:
-        "article",
+      type: "article",
 
-      publishedTime:
-        `${post.date}T00:00:00.000Z`,
+      publishedTime: `${post.date}T00:00:00.000Z`,
 
-      images:
-        post.image
-          ? [
+      images: post.image
+        ? [
             {
-              url:
-                `${siteUrl}${post.image}`,
+              url: `${siteUrl}${post.image}`,
               width: 1200,
               height: 675,
-              alt:
-                post.imageAlt ??
-                post.title,
+              alt: post.imageAlt ?? post.title,
             },
           ]
-          : undefined,
+        : undefined,
     },
   };
 }
+
 const badgeClasses = {
-  red:
-    "border-red-500/30 bg-red-500/10 text-red-300",
+  red: "border-red-500/30 bg-red-500/10 text-red-300",
 
   yellow:
     "border-yellow-500/30 bg-yellow-500/10 text-yellow-300",
@@ -109,75 +94,53 @@ const badgeClasses = {
     "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
 };
 
-
 export default async function BlogPostPage({
   params,
 }: PageProps) {
   const { slug } = await params;
 
-  const post =
-    getPostBySlug(slug);
+  const post = getPostBySlug(slug);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts =
-    getRelatedPosts(post, 3);
+  const relatedPosts = getRelatedPosts(post, 3);
 
-  const articleUrl =
-    `${siteUrl}/blog/${post.slug}`;
+  const articleUrl = `${siteUrl}/blog/${post.slug}`;
 
   const jsonLd = {
-    "@context":
-      "https://schema.org",
+    "@context": "https://schema.org",
 
-    "@type":
-      "BlogPosting",
+    "@type": "BlogPosting",
 
-    headline:
-      post.title,
+    headline: post.title,
 
-    description:
-      post.excerpt,
+    description: post.excerpt,
 
-    datePublished:
-      `${post.date}T00:00:00.000Z`,
+    datePublished: `${post.date}T00:00:00.000Z`,
 
-    dateModified:
-      `${post.date}T00:00:00.000Z`,
+    dateModified: `${post.date}T00:00:00.000Z`,
 
     author: {
-      "@type":
-        "Organization",
-
-      name:
-        "Calculadora de Asados",
+      "@type": "Organization",
+      name: "Calculadora de Asados",
     },
 
     publisher: {
-      "@type":
-        "Organization",
-
-      name:
-        "Calculadora de Asados",
-
-      url:
-        siteUrl,
+      "@type": "Organization",
+      name: "Calculadora de Asados",
+      url: siteUrl,
     },
 
     mainEntityOfPage: {
-      "@type":
-        "WebPage",
-
-      "@id":
-        articleUrl,
+      "@type": "WebPage",
+      "@id": articleUrl,
     },
 
-    image:
-      post.image
-        ? `${siteUrl}${post.image}`
-        : undefined,
+    image: post.image
+      ? `${siteUrl}${post.image}`
+      : undefined,
   };
 
   return (
@@ -185,8 +148,7 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html:
-            JSON.stringify(jsonLd),
+          __html: JSON.stringify(jsonLd),
         }}
       />
 
@@ -209,16 +171,16 @@ export default async function BlogPostPage({
             <div className="flex flex-wrap items-center gap-3">
               <span
                 className={`
-    rounded-full
-    border
-    px-3
-    py-1
-    text-[10px]
-    font-black
-    uppercase
-    tracking-[0.18em]
-    ${badgeClasses[post.accent]}
-  `}
+                  rounded-full
+                  border
+                  px-3
+                  py-1
+                  text-[10px]
+                  font-black
+                  uppercase
+                  tracking-[0.18em]
+                  ${badgeClasses[post.accent]}
+                `}
               >
                 {post.category}
               </span>
@@ -275,9 +237,7 @@ export default async function BlogPostPage({
 
               {post.imageCaption && (
                 <figcaption className="mt-3 text-center text-xs leading-5 text-zinc-500">
-                  {
-                    post.imageCaption
-                  }
+                  {post.imageCaption}
                 </figcaption>
               )}
             </figure>
@@ -286,6 +246,7 @@ export default async function BlogPostPage({
           {/* MARKDOWN */}
           <div className="mt-10 rounded-[2rem] border border-zinc-800 bg-black/30 px-6 py-8 shadow-xl shadow-black/20 md:px-10 md:py-10">
             <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
               components={{
                 h1: ({
                   children,
@@ -317,6 +278,56 @@ export default async function BlogPostPage({
                   <p className="my-5 text-base leading-8 text-zinc-300 md:text-[17px]">
                     {children}
                   </p>
+                ),
+
+                table: ({
+                  children,
+                }) => (
+                  <div className="my-8 overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-950 shadow-xl shadow-black/20">
+                    <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+                      {children}
+                    </table>
+                  </div>
+                ),
+
+                thead: ({
+                  children,
+                }) => (
+                  <thead className="bg-gradient-to-r from-red-950/80 via-red-950/50 to-zinc-950">
+                    {children}
+                  </thead>
+                ),
+
+                tbody: ({
+                  children,
+                }) => (
+                  <tbody className="divide-y divide-zinc-800">
+                    {children}
+                  </tbody>
+                ),
+
+                tr: ({
+                  children,
+                }) => (
+                  <tr className="transition-colors hover:bg-zinc-900/70">
+                    {children}
+                  </tr>
+                ),
+
+                th: ({
+                  children,
+                }) => (
+                  <th className="whitespace-nowrap border-b border-red-500/30 px-5 py-4 text-xs font-black uppercase tracking-wider text-red-300">
+                    {children}
+                  </th>
+                ),
+
+                td: ({
+                  children,
+                }) => (
+                  <td className="px-5 py-4 align-middle leading-6 text-zinc-300">
+                    {children}
+                  </td>
                 ),
 
                 ul: ({
@@ -415,7 +426,7 @@ export default async function BlogPostPage({
                 }) => {
                   if (
                     typeof src !==
-                    "string" ||
+                      "string" ||
                     !src
                   ) {
                     return null;
@@ -457,15 +468,14 @@ export default async function BlogPostPage({
                   </p>
 
                   <h2 className="mt-3 max-w-xl text-2xl font-black text-white md:text-3xl">
-                    Haz el cálculo para
-                    tu próximo asado
+                    Haz el cálculo para tu
+                    próximo asado
                   </h2>
 
                   <p className="mt-3 max-w-xl text-sm leading-7 text-zinc-400">
-                    Ingresa tus
-                    invitados, selecciona
-                    tus carnes y obtén
-                    una estimación para
+                    Ingresa tus invitados,
+                    selecciona tus carnes y
+                    obtén una estimación para
                     planificar tu compra.
                   </p>
 
@@ -485,43 +495,45 @@ export default async function BlogPostPage({
         {/* RELACIONADOS */}
         {relatedPosts.length >
           0 && (
-            <section className="border-t border-zinc-800 px-6 py-10 md:px-10 md:py-14">
-              <div className="mb-7 flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-red-400">
-                    Sigue aprendiendo
-                  </p>
+          <section className="border-t border-zinc-800 px-6 py-10 md:px-10 md:py-14">
+            <div className="mb-7 flex items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-red-400">
+                  Sigue aprendiendo
+                </p>
 
-                  <h2 className="mt-2 text-3xl font-black text-white">
-                    También te puede
-                    interesar
-                  </h2>
-                </div>
-
-                <Link
-                  href="/blog"
-                  className="hidden text-sm font-black text-yellow-300 transition hover:text-yellow-200 sm:block"
-                >
-                  Ver todos →
-                </Link>
+                <h2 className="mt-2 text-3xl font-black text-white">
+                  También te puede
+                  interesar
+                </h2>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-3">
-                {relatedPosts.map(
-                  (relatedPost) => (
-                    <ArticleCard
-                      key={
-                        relatedPost.slug
-                      }
-                      post={
-                        relatedPost
-                      }
-                    />
-                  )
-                )}
-              </div>
-            </section>
-          )}
+              <Link
+                href="/blog"
+                className="hidden text-sm font-black text-yellow-300 transition hover:text-yellow-200 sm:block"
+              >
+                Ver todos →
+              </Link>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {relatedPosts.map(
+                (
+                  relatedPost
+                ) => (
+                  <ArticleCard
+                    key={
+                      relatedPost.slug
+                    }
+                    post={
+                      relatedPost
+                    }
+                  />
+                )
+              )}
+            </div>
+          </section>
+        )}
       </div>
     </main>
   );
