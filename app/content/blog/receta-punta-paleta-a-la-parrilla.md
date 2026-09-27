@@ -1,4 +1,4 @@
----
+﻿---
 slug: "receta-punta-paleta-a-la-parrilla"
 
 title: "Punta paleta a la parrilla: tiempo y cómo dejarla jugosa"
@@ -12,6 +12,7 @@ excerpt: "Aprende cuánto tiempo cocinar la punta paleta a la parrilla, qué fue
 readTime: "8 min de lectura"
 
 date: "2026-09-15"
+updated: "2026-09-27"
 
 accent: "red"
 

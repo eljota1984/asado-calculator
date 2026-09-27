@@ -1,4 +1,4 @@
----
+﻿---
 slug: "guia-tipos-de-carbon-para-asado"
 
 title: "Tipos de carbón para asado: guía completa y usos de cada uno"
@@ -12,6 +12,7 @@ excerpt: "Conoce los principales tipos de carbón para asado, sus característic
 readTime: "8 min de lectura"
 
 date: "2026-09-15"
+updated: "2026-09-27"
 
 accent: "green"
 

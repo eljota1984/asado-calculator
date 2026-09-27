@@ -1,4 +1,4 @@
----
+﻿---
 slug: "cortes-economicos-fiestas-patrias"
 
 title: "Cortes económicos para Fiestas Patrias: opciones para un asado más conveniente"
@@ -12,6 +12,7 @@ excerpt: "Conoce cortes y alternativas convenientes para preparar un asado de Fi
 readTime: "8 min de lectura"
 
 date: "2026-08-16"
+updated: "2026-09-27"
 
 accent: "yellow"
 

@@ -1,4 +1,4 @@
----
+﻿---
 slug: "cuanto-carbon-para-10-kg-de-carne"
 
 title: "¿Cuánto carbón necesito para 10 kg de carne? Guía práctica"
@@ -12,6 +12,7 @@ excerpt: "Para 10 kg de carne, considera como referencia entre 5 y 7 kg de carb�
 readTime: "7 min de lectura"
 
 date: "2026-09-17"
+updated: "2026-09-27"
 
 accent: "green"
 

@@ -1,4 +1,4 @@
----
+﻿---
 slug: "receta-cortes-economicos-a-la-parrilla"
 
 title: "Cómo cocinar cortes económicos a la parrilla y dejarlos sabrosos"
@@ -12,6 +12,7 @@ excerpt: "Aprende cómo cocinar huachalomo, sobrecostilla, punta paleta, abaster
 readTime: "9 min de lectura"
 
 date: "2026-08-16"
+updated: "2026-09-27"
 
 accent: "red"
 

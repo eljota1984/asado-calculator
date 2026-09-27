@@ -1,4 +1,4 @@
----
+﻿---
 slug: "receta-lomo-liso-a-la-parrilla"
 
 title: "Lomo liso a la parrilla: tiempo, temperatura y cómo dejarlo jugoso"
@@ -12,6 +12,7 @@ excerpt: "Aprende cómo hacer lomo liso a la parrilla, cuánto tiempo cocinarlo,
 readTime: "8 min de lectura"
 
 date: "2026-09-15"
+updated: "2026-09-27"
 
 accent: "red"
 

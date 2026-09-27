@@ -1,4 +1,4 @@
----
+﻿---
 slug: "pebre-chileno-para-asados"
 
 title: "Pebre chileno: receta fácil y cantidades para acompañar el asado"
@@ -12,6 +12,7 @@ excerpt: "Aprende cómo hacer pebre chileno con tomate, cebolla, cilantro, ají 
 readTime: "7 min de lectura"
 
 date: "2026-09-15"
+updated: "2026-09-27"
 
 accent: "red"
 

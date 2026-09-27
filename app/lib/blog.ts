@@ -21,7 +21,13 @@ export type BlogPost = {
 
   readTime: string;
 
+  // Fecha original de publicación.
   date: string;
+
+  // Fecha de última actualización.
+  // Es opcional para mantener compatibilidad
+  // con artículos antiguos.
+  updated?: string;
 
   accent: BlogAccent;
 
@@ -69,71 +75,92 @@ function parseFrontmatter(
   metadata: Frontmatter;
   content: string;
 } {
-  const normalized =
-    raw.replace(/\r\n/g, "\n");
+  const normalized = raw
+    .replace(/^\uFEFF/, "")
+    .replace(/\r\n?/g, "\n");
 
-  const match =
-    normalized.match(
-      /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/
-    );
+  const lines = normalized.split("\n");
 
-  if (!match) {
+  if (
+    lines.length === 0 ||
+    lines[0].trim() !== "---"
+  ) {
     return {
       metadata: {},
-      content:
-        normalized.trim(),
+      content: normalized.trim(),
+    };
+  }
+
+  const closingIndex =
+    lines.findIndex(
+      (line, index) =>
+        index > 0 &&
+        line.trim() === "---"
+    );
+
+  if (closingIndex === -1) {
+    return {
+      metadata: {},
+      content: normalized.trim(),
     };
   }
 
   const frontmatterBlock =
-    match[1];
+    lines
+      .slice(1, closingIndex)
+      .join("\n");
 
   const content =
-    match[2].trim();
+    lines
+      .slice(closingIndex + 1)
+      .join("\n")
+      .trim();
 
-  const metadata:
-    Frontmatter = {};
+  const metadata: Frontmatter = {};
 
   for (
     const line of
     frontmatterBlock.split("\n")
   ) {
-    const separatorIndex =
-      line.indexOf(":");
+    const trimmedLine =
+      line.trim();
 
-    if (
-      separatorIndex === -1
-    ) {
+    if (!trimmedLine) {
       continue;
     }
 
-    const key = line
-      .slice(
-        0,
-        separatorIndex
-      )
-      .trim();
+    const separatorIndex =
+      trimmedLine.indexOf(":");
 
-    const rawValue = line
-      .slice(
-        separatorIndex + 1
-      )
-      .trim();
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const key =
+      trimmedLine
+        .slice(
+          0,
+          separatorIndex
+        )
+        .trim();
+
+    const rawValue =
+      trimmedLine
+        .slice(
+          separatorIndex + 1
+        )
+        .trim();
 
     if (!key) {
       continue;
     }
 
-    if (
-      rawValue === "true"
-    ) {
+    if (rawValue === "true") {
       metadata[key] = true;
       continue;
     }
 
-    if (
-      rawValue === "false"
-    ) {
+    if (rawValue === "false") {
       metadata[key] = false;
       continue;
     }
@@ -196,6 +223,22 @@ function requiredString(
   return value;
 }
 
+function validateDate(
+  date: string,
+  fieldName: string,
+  fileName: string
+): void {
+  if (
+    !/^\d{4}-\d{2}-\d{2}$/.test(
+      date
+    )
+  ) {
+    throw new Error(
+      `La fecha "${fieldName}" de ${fileName} debe usar formato YYYY-MM-DD`
+    );
+  }
+}
+
 function normalizeAccent(
   value: string
 ): BlogAccent {
@@ -249,13 +292,23 @@ function parseMarkdownFile(
       fileName
     );
 
-  if (
-    !/^\d{4}-\d{2}-\d{2}$/.test(
-      date
-    )
-  ) {
-    throw new Error(
-      `La fecha de ${fileName} debe usar formato YYYY-MM-DD`
+  validateDate(
+    date,
+    "date",
+    fileName
+  );
+
+  const updated =
+    getString(
+      metadata,
+      "updated"
+    ) || undefined;
+
+  if (updated) {
+    validateDate(
+      updated,
+      "updated",
+      fileName
     );
   }
 
@@ -269,8 +322,6 @@ function parseMarkdownFile(
         fileName
       ),
 
-    // NUEVO:
-    // Lee seoTitle desde el frontmatter.
     seoTitle:
       getString(
         metadata,
@@ -299,6 +350,8 @@ function parseMarkdownFile(
       ),
 
     date,
+
+    updated,
 
     accent:
       normalizeAccent(

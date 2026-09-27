@@ -1,4 +1,4 @@
----
+﻿---
 slug: "cuanta-carne-necesito-para-un-asado"
 
 title: "¿Cuánta carne necesito para un asado? Tabla para 10, 20, 30 y 50 personas"
@@ -12,6 +12,7 @@ excerpt: "Calcula cuántos kilos de carne necesitas para un asado de 10, 20, 30 
 readTime: "8 min de lectura"
 
 date: "2026-08-14"
+updated: "2026-09-27"
 
 accent: "yellow"
 

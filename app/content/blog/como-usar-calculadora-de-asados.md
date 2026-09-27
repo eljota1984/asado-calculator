@@ -13,6 +13,8 @@ readTime: "6 min de lectura"
 
 date: "2026-08-15"
 
+updated: "2026-09-27"
+
 accent: "green"
 
 featured: false

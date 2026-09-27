@@ -33,20 +33,26 @@ export default function sitemap():
 
   const blogPages:
     MetadataRoute.Sitemap =
-    posts.map((post) => ({
-      url:
-        `${siteUrl}/blog/${post.slug}`,
+    posts.map((post) => {
+      const lastModified =
+        post.updated ??
+        post.date;
 
-      lastModified:
-        new Date(
-          `${post.date}T00:00:00Z`
-        ),
+      return {
+        url:
+          `${siteUrl}/blog/${post.slug}`,
 
-      changeFrequency:
-        "monthly" as const,
+        lastModified:
+          new Date(
+            `${lastModified}T00:00:00Z`
+          ),
 
-      priority: 0.7,
-    }));
+        changeFrequency:
+          "monthly" as const,
+
+        priority: 0.7,
+      };
+    });
 
   return [
     ...staticPages,

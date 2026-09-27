@@ -1,4 +1,4 @@
----
+﻿---
 slug: "cuanta-carne-comprar-por-persona"
 
 title: "¿Cuánta carne por persona para un asado? Gramos por adulto y niño"
@@ -12,6 +12,7 @@ excerpt: "Calcula cuántos gramos de carne comprar por persona para un asado seg
 readTime: "8 min de lectura"
 
 date: "2026-09-17"
+updated: "2026-09-27"
 
 accent: "yellow"
 

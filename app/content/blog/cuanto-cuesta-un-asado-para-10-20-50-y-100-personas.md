@@ -1,4 +1,4 @@
----
+﻿---
 slug: "cuanto-cuesta-un-asado-para-10-20-50-y-100-personas"
 
 title: "¿Cuánto cuesta un asado para 10, 20, 50 y 100 personas?"
@@ -12,6 +12,7 @@ excerpt: "Calcula el presupuesto de un asado para 10, 20, 50 o 100 personas cons
 readTime: "9 min de lectura"
 
 date: "2026-09-17"
+updated: "2026-09-27"
 
 accent: "green"
 
