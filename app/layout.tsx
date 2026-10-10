@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
@@ -13,6 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#dc2626",
+  colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(
     "https://calculadoradeasados.cl"
@@ -22,6 +29,18 @@ export const metadata: Metadata = {
 
   description:
     "Calcula cantidades de carne, costos y compras para tu asado. Encuentra además recetas, guías y consejos parrilleros.",
+
+  applicationName: "Calculadora de Asados",
+
+  appleWebApp: {
+    title: "Mi Asado",
+    statusBarStyle: "black-translucent",
+  },
+
+  formatDetection: {
+    telephone: false,
+  },
+
 };
 
 export default function RootLayout({
