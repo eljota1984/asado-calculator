@@ -137,28 +137,7 @@ export default function Home() {
             y organiza mejor el presupuesto de tu próximo asado.
           </p>
         </section>
-        {/* <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
-          <div className="flex flex-col items-center gap-5 text-center">
-            <div>
-              <div className="mb-4 flex justify-center">
-                <img
-                  src="/logo_final.png"
-                  alt="Calculadora de Asados"
-                  className="h-40 w-auto md:h-56"
-                />
-              </div>
-
-              <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
-                Calculadora de Asados
-              </h1>
-
-              <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
-                Calcula cantidades, selecciona productos reales, estima
-                costos y genera un resumen listo para organizar la compra.
-              </p>
-            </div>
-          </div>
-        </section> */}
+      
 
         {/* PERSONAS */}
 
@@ -194,7 +173,7 @@ export default function Home() {
                   ? "El resumen se habilita cuando hay al menos un adulto que pague."
                   : !hayCortes
                     ? "Debes seleccionar al menos un producto de vacuno, cerdo, pollo o embutidos."
-                    : "Ver dashboard, compra sugerida, costos estimados y descargar PDF."}
+                    : "Ver cantidades, compra sugerida y costos estimados."}
               </p>
             </div>
 

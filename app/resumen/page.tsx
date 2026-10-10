@@ -2,565 +2,525 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import jsPDF from "jspdf";
-import { productosAsado } from "../lib/datos";
+
+import {
+  buscarProductoPorReferencia,
+  type ProductoAsado,
+} from "../lib/datos";
+import {
+  calcularCompraHibrida,
+  calcularDemandaBase,
+  PARTICIPACION_EMBUTIDOS_CON_CARNES,
+} from "../lib/calculoHibrido";
 import type { AdultosState, CortesSeleccionadosState } from "../lib/types";
 
+function formatoPrecio(valor: number) {
+  return `$${Math.round(valor).toLocaleString("es-CL")}`;
+}
+
+function descripcionFormato(
+  formatoCompra: ProductoAsado["formatoCompra"],
+  cantidad: number | null,
+) {
+  if (cantidad === null) return null;
+
+  if (formatoCompra === "pack") return `${cantidad} ${cantidad === 1 ? "pack" : "packs"}`;
+  if (formatoCompra === "unidad") return `${cantidad} ${cantidad === 1 ? "unidad" : "unidades"}`;
+  if (formatoCompra === "bandeja") return `${cantidad} ${cantidad === 1 ? "bandeja" : "bandejas"}`;
+
+  return `${cantidad} ${cantidad === 1 ? "pieza" : "piezas"}`;
+}
+
 export default function ResumenPage() {
-    const router = useRouter();
-    const [adultos, setAdultos] = useState<AdultosState>({
-        alto: 0,
-        normal: 0,
-        bajo: 0,
-        ninos: 0,
+  const router = useRouter();
+
+  const [adultos, setAdultos] = useState<AdultosState>({
+    alto: 0,
+    normal: 0,
+    bajo: 0,
+    ninos: 0,
+  });
+
+  const [cortesSeleccionados, setCortesSeleccionados] =
+    useState<CortesSeleccionadosState>({
+      vacuno: [],
+      cerdo: [],
+      pollo: [],
+      embutidos: [],
     });
-    const [cortesSeleccionados, setCortesSeleccionados] =
-        useState<CortesSeleccionadosState>({
-            vacuno: [],
-            cerdo: [],
-            pollo: [],
-            embutidos: [],
-        });
-    const [mostrarDisclaimer, setMostrarDisclaimer] = useState(true);
-    useEffect(() => {
-        const adultosGuardados = localStorage.getItem("adultos");
-        const cortesGuardados = localStorage.getItem("cortesSeleccionados");
 
-        if (adultosGuardados) {
-            setAdultos(JSON.parse(adultosGuardados));
-        }
+  const [mostrarDisclaimer, setMostrarDisclaimer] = useState(true);
+  const [copiado, setCopiado] = useState(false);
 
-        if (cortesGuardados) {
-            setCortesSeleccionados(JSON.parse(cortesGuardados));
-        }
-    }, []);
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setMostrarDisclaimer(false);
-        }, 10000);
+  useEffect(() => {
+    const adultosGuardados = localStorage.getItem("adultos");
+    const cortesGuardados = localStorage.getItem("cortesSeleccionados");
 
-        return () => clearTimeout(timer);
-    }, []);
-    const gramosPorPersona = {
-        alto: 550,
-        normal: 420,
-        bajo: 320,
-        ninos: 220,
-    };
-    const totalPersonas =
-        adultos.alto + adultos.normal + adultos.bajo + adultos.ninos;
+    if (adultosGuardados) {
+      setAdultos(JSON.parse(adultosGuardados));
+    }
 
-    const totalAdultos = adultos.alto + adultos.normal + adultos.bajo;
+    if (cortesGuardados) {
+      setCortesSeleccionados(JSON.parse(cortesGuardados));
+    }
+  }, []);
 
-    const gramosTotales =
-        adultos.alto * gramosPorPersona.alto +
-        adultos.normal * gramosPorPersona.normal +
-        adultos.bajo * gramosPorPersona.bajo +
-        adultos.ninos * gramosPorPersona.ninos;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMostrarDisclaimer(false);
+    }, 10000);
 
-    const kilosTotales = gramosTotales / 1000;
-    const seleccionados = useMemo(() => {
-        const todos = [
-            ...productosAsado.vacuno,
-            ...productosAsado.cerdo,
-            ...productosAsado.pollo,
-            ...productosAsado.embutidos,
-        ];
-        const nombres = [
-            ...cortesSeleccionados.vacuno,
-            ...cortesSeleccionados.cerdo,
-            ...cortesSeleccionados.pollo,
-            ...cortesSeleccionados.embutidos,
-        ];
-        return todos.filter((item) => nombres.includes(item.nombre));
-    }, [cortesSeleccionados]);
-    const cantidadSeleccionados = seleccionados.length;
-    const precioPromedio =
-        cantidadSeleccionados > 0
-            ? seleccionados.reduce((acc, item) => acc + item.precio, 0) /
-            cantidadSeleccionados
-            : 0;
-    const costoEstimado =
-        cantidadSeleccionados > 0 ? kilosTotales * precioPromedio : 0;
-    const costoPorAdulto =
-        totalAdultos > 0 ? costoEstimado / totalAdultos : 0;
-    const resumenPorTipo = [
-        {
-            nombre: "Vacuno",
-            cantidad: cortesSeleccionados.vacuno.length,
-        },
-        {
-            nombre: "Cerdo",
-            cantidad: cortesSeleccionados.cerdo.length,
-        },
-        {
-            nombre: "Pollo",
-            cantidad: cortesSeleccionados.pollo.length,
-        },
-        {
-            nombre: "Embutidos",
-            cantidad: cortesSeleccionados.embutidos.length,
-        },
+    return () => clearTimeout(timer);
+  }, []);
+
+  const demanda = useMemo(() => calcularDemandaBase(adultos), [adultos]);
+
+  const seleccionados = useMemo(() => {
+    const referencias = [
+      ...cortesSeleccionados.vacuno,
+      ...cortesSeleccionados.cerdo,
+      ...cortesSeleccionados.pollo,
+      ...cortesSeleccionados.embutidos,
     ];
-    const compraSugerida = useMemo(() => {
-        if (seleccionados.length === 0 || kilosTotales === 0) return [];
 
-        const kilosPorProducto = kilosTotales / seleccionados.length;
+    const vistos = new Set<string>();
+    const productos: ProductoAsado[] = [];
 
-        return seleccionados.map((producto) => {
-            const rendimiento = producto.rendimiento ?? 1;
-            const pesoPromedio = producto.pesoPromedio ?? 1;
-            const kilosNecesariosBrutos = kilosPorProducto / rendimiento;
-            const cantidadSugerida = Math.ceil(kilosNecesariosBrutos / pesoPromedio);
-            const kilosCompraAprox = cantidadSugerida * pesoPromedio;
-            const costoSugerido =
-                producto.tipoVenta === "pack"
-                    ? cantidadSugerida * producto.precio
-                    : kilosCompraAprox * producto.precio;
-            return {
-                nombre: producto.nombre,
-                tipo: producto.tipo,
-                tipoVenta: producto.tipoVenta,
-                cantidadSugerida,
-                kilosIdeal: kilosPorProducto,
-                kilosCompraAprox,
-                costoSugerido,
-                descripcionVenta: producto.descripcionVenta,
-                unidadesPorPack: producto.unidadesPorPack,
-            };
-        });
-    }, [seleccionados, kilosTotales]);
-    const totalCompraSugerida = useMemo(() => {
-        return compraSugerida.reduce((acc, item) => acc + item.costoSugerido, 0);
-    }, [compraSugerida]);
-    const kilosCompraSugerida = compraSugerida.reduce(
-        (acc, item) => acc + item.kilosCompraAprox,
-        0
-    );
-    const costoPorAdultoReal =
-        totalAdultos > 0 ? totalCompraSugerida / totalAdultos : 0;
-    const costoPorAdultoCompraSugerida =
-        totalAdultos > 0 ? totalCompraSugerida / totalAdultos : 0;
-    const reiniciarCalculo = () => {
-        localStorage.removeItem("adultos");
-        localStorage.removeItem("cortesSeleccionados");
-        router.push("/");
-    };
-    const volverAEditar = () => {
-        router.push("/");
-    };
-    const generarPDF = () => {
-        const doc = new jsPDF();
-        let y = 20;
-        doc.setFontSize(20);
-        doc.text("Resumen del Asado", 20, y);
-        y += 12;
-        doc.setFontSize(12);
-        doc.text(`Adultos: ${totalAdultos}`, 20, y);
-        y += 8;
-        doc.text(`Ninos: ${adultos.ninos}`, 20, y);
-        y += 8;
-        doc.text(`Total personas: ${totalPersonas}`, 20, y);
-        y += 8;
-        doc.text(`Carne estimada: ${kilosTotales.toFixed(2)} kg`, 20, y);
-        y += 8;
-        doc.text(
-            `Costo estimado: $${Math.round(costoEstimado).toLocaleString("es-CL")}`,
-            20,
-            y
-        );
-        y += 8;
-        doc.text(
-            `Costo por adulto: $${Math.round(costoPorAdulto).toLocaleString(
-                "es-CL"
-            )}`,
-            20,
-            y
-        );
-        y += 10;
-        doc.setFontSize(14);
-        doc.text("Resumen compra sugerida", 20, y);
-        y += 8;
-        doc.setFontSize(12);
-        doc.text(
-            `Kilos compra sugerida: ${kilosCompraSugerida.toFixed(2)} kg`,
-            20,
-            y
-        );
-        y += 8;
-        doc.text(
-            `Costo total compra sugerida: $${Math.round(
-                totalCompraSugerida
-            ).toLocaleString("es-CL")}`,
-            20,
-            y
-        );
+    for (const referencia of referencias) {
+      const producto = buscarProductoPorReferencia(referencia);
 
-        y += 8;
-        doc.text(
-            `Costo por adulto sugerido: $${Math.round(
-                costoPorAdultoReal
-            ).toLocaleString("es-CL")}`,
-            20,
-            y
-        );
-        y += 12;
-        doc.setFontSize(16);
-        doc.text("Seleccion por tipo", 20, y);
-        y += 10;
-        doc.setFontSize(12);
+      if (!producto || vistos.has(producto.id)) continue;
 
-        resumenPorTipo.forEach((item) => {
-            doc.text(`${item.nombre}: ${item.cantidad}`, 20, y);
-            y += 8;
-        });
-        y += 8;
-        if (y > 250) {
-            doc.addPage();
-            y = 20;
-        }
-        doc.setFontSize(16);
-        doc.text("Compra sugerida", 20, y);
-        y += 10;
-        doc.setFontSize(11);
-        compraSugerida.forEach((item) => {
-            if (y > 260) {
-                doc.addPage();
-                y = 20;
-            }
-            doc.text(`${item.nombre}`, 20, y);
-            y += 6;
-            doc.text(
-                `Sugerencia: ${item.cantidadSugerida} ${item.tipoVenta === "pack"
-                    ? "pack(s)"
-                    : item.tipoVenta === "unidad"
-                        ? "unidad(es)"
-                        : item.tipoVenta === "bandeja"
-                            ? "bandeja(s)"
-                            : "pieza(s)"
-                }`,
-                25,
-                y
-            );
-            y += 6;
+      vistos.add(producto.id);
+      productos.push(producto);
+    }
 
-            doc.text(`Compra aprox: ${item.kilosCompraAprox.toFixed(2)} kg`, 25, y);
-            y += 6;
+    return productos;
+  }, [cortesSeleccionados]);
 
-            doc.text(
-                `Costo aprox: $${Math.round(item.costoSugerido).toLocaleString(
-                    "es-CL"
-                )}`,
-                25,
-                y
-            );
-            y += 8;
+  const resultado = useMemo(
+    () =>
+      calcularCompraHibrida({
+        productosSeleccionados: seleccionados,
+        kilosNecesarios: demanda.kilosTotales,
+      }),
+    [demanda.kilosTotales, seleccionados],
+  );
 
-            doc.line(20, y, 190, y);
-            y += 8;
-        });
+  const cantidadSeleccionados = seleccionados.length;
+  const costoPorAdulto =
+    demanda.totalAdultos > 0
+      ? resultado.costoCompraTotal / demanda.totalAdultos
+      : 0;
 
-        y += 6;
+  const resumenPorTipo = [
+    { nombre: "Vacuno", cantidad: cortesSeleccionados.vacuno.length },
+    { nombre: "Cerdo", cantidad: cortesSeleccionados.cerdo.length },
+    { nombre: "Pollo", cantidad: cortesSeleccionados.pollo.length },
+    { nombre: "Embutidos", cantidad: cortesSeleccionados.embutidos.length },
+  ];
 
-        if (y > 250) {
-            doc.addPage();
-            y = 20;
-        }
+  const reiniciarCalculo = () => {
+    localStorage.removeItem("adultos");
+    localStorage.removeItem("cortesSeleccionados");
+    router.push("/calculadora");
+  };
 
-        doc.setFontSize(16);
-        doc.text("Productos seleccionados", 20, y);
+  const volverAEditar = () => {
+    router.push("/calculadora");
+  };
 
-        y += 10;
-        doc.setFontSize(11);
+  const textoCompartir = useMemo(() => {
+    const lineasCompra = resultado.items.map((item) => {
+      const formato = descripcionFormato(item.formatoCompra, item.cantidadSugerida);
 
-        if (seleccionados.length === 0) {
-            doc.text("No hay productos seleccionados.", 20, y);
-        } else {
-            seleccionados.forEach((producto) => {
-                if (y > 270) {
-                    doc.addPage();
-                    y = 20;
-                }
+      const compra = formato
+        ? `${formato} · ${item.kilosCompraAprox.toFixed(2)} kg aprox.`
+        : `${item.kilosCompraAprox.toFixed(2)} kg aprox.`;
 
-                doc.text(`${producto.nombre}`, 20, y);
-                y += 6;
+      return `• ${item.nombre}: ${compra} · ${formatoPrecio(item.costoSugerido)}`;
+    });
 
-                doc.text(
-                    `Tipo: ${producto.tipo} | Categoria: ${producto.categoria}`,
-                    25,
-                    y
-                );
-                y += 6;
+    return [
+      "🔥 Mi asado — Asado Inteligente",
+      "",
+      `👥 Personas: ${demanda.totalPersonas} (${demanda.totalAdultos} adultos + ${adultos.ninos} niños)`,
+      `🥩 Carne base calculada: ${demanda.kilosTotales.toFixed(2)} kg`,
+      `🛒 Compra sugerida: ${resultado.kilosCompraSugerida.toFixed(2)} kg`,
+      `💰 Valor estimado de compra: ${formatoPrecio(resultado.costoCompraTotal)}`,
+      demanda.totalAdultos > 0
+        ? `💵 Costo por adulto: ${formatoPrecio(costoPorAdulto)}`
+        : "💵 Costo por adulto: no aplica",
+      "",
+      "Compra sugerida:",
+      ...(lineasCompra.length > 0
+        ? lineasCompra
+        : ["• No hay productos seleccionados."]),
+      "",
+      "🔥 Calcula tu próximo asado en:",
+      "https://calculadoradeasados.cl/calculadora",
+      "",
+      "* Cantidades y costos aproximados.",
+    ].join("\n");
+  }, [adultos.ninos, costoPorAdulto, demanda, resultado]);
 
-                doc.text(
-                    `Precio: $${producto.precio.toLocaleString("es-CL")}${producto.tipoVenta === "pack" ? " / pack" : " / kg"
-                    }`,
-                    25,
-                    y
-                );
-                y += 6;
+  const copiarResultados = async () => {
+    try {
+      await navigator.clipboard.writeText(textoCompartir);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = textoCompartir;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
 
-                if (producto.descripcionVenta) {
-                    doc.text(`Venta: ${producto.descripcionVenta}`, 25, y);
-                    y += 6;
-                }
+    setCopiado(true);
+    window.setTimeout(() => setCopiado(false), 2200);
+  };
 
-                if (producto.pesoPromedio) {
-                    doc.text(`Peso promedio: ${producto.pesoPromedio.toFixed(2)} kg`, 25, y);
-                    y += 6;
-                }
+  const compartirWhatsApp = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(textoCompartir)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
 
-                doc.line(20, y, 190, y);
-                y += 8;
-            });
-        }
+  const compartirCorreo = () => {
+    const asunto = "Resumen de mi asado — Asado Inteligente";
+    const url = `mailto:?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(textoCompartir)}`;
+    window.location.href = url;
+  };
 
-        doc.save("resumen-asado-v2.pdf");
-    };
+  return (
+    <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.25),transparent)]" />
 
-    return (
-        <main className="min-h-screen bg-black px-4 py-6 text-white md:py-10">
-            <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,rgba(220,38,38,0.18),transparent_35%),linear-gradient(to_bottom,rgba(24,24,27,0.25),transparent)]" />
+      {mostrarDisclaimer && (
+        <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-full rounded-3xl border border-red-500/40 bg-zinc-950/95 p-5 shadow-2xl shadow-red-950/40 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-lg font-black text-red-400">
+                Cómo se calcula tu compra
+              </p>
 
-            {mostrarDisclaimer && (
-                <div className="fixed inset-x-4 top-4 z-50 mx-auto max-w-full rounded-3xl border border-red-500/40 bg-zinc-950/95 p-5 shadow-2xl shadow-red-950/40 backdrop-blur">
-                    <div className="flex items-start justify-between gap-4">
-                        <div>
-                            <p className="text-lg font-black text-red-400">
-                                Aviso sobre los cálculos
-                            </p>
+              <p className="mt-2 text-sm leading-6 text-zinc-300">
+                Primero calculamos los gramos de carne cruda que necesita comprar
+                el grupo. Luego distribuimos esa cantidad por tipo de carne y, al
+                final, respetamos el formato comercial de cada producto.
+              </p>
 
-                            <p className="mt-2 text-sm leading-6 text-zinc-300">
-                                El cálculo estimado muestra kilos y costos según consumo
-                                aproximado y precio promedio de los productos seleccionados.
-                            </p>
-
-                            <p className="mt-2 text-sm leading-6 text-zinc-300">
-                                La compra sugerida considera packs, bandejas, piezas o pesos
-                                promedio aproximados. Por eso puede ser mayor al cálculo
-                                estimado.
-                            </p>
-                        </div>
-
-                        <button
-                            onClick={() => setMostrarDisclaimer(false)}
-                            className="rounded-full bg-zinc-900 px-3 py-1 text-sm font-bold text-zinc-300 ring-1 ring-zinc-700 hover:bg-zinc-800"
-                        >
-                            ×
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
-                <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
-                    {/* <div className="text-center"> */}
-                    <div className="flex flex-col items-center text-center">
-                        {/* <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-red-400">
-                            Dashboard del asado */}
-                            <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
-                                Resumen del Asado
-                            </h1>
-{/* 
-                        </p> */}
-                        <img
-                            src="logo_final.png"
-                            alt="Calculadora de Asados"
-                            className="h-40 w-auto md:h-56"
-                        />
-
-                        {/* <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
-                            Resumen del Asado 📊
-                        </h1> */}
-
-                        <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
-                            Revisa costos, kilos estimados, compra sugerida y descarga el PDF
-                            final para organizar tu parrilla.
-                        </p>
-                    </div>
-                </section>
-
-                <section className="rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-5 shadow-2xl shadow-red-950/10 md:p-6">
-                    <div className="mb-5 flex items-center justify-between gap-4">
-                        <div>
-                            <p className="text-sm font-bold uppercase tracking-widest text-red-400">
-                                Resultados
-                            </p>
-                            <h2 className="text-2xl font-black text-white">Dashboard</h2>
-                        </div>
-
-                        <div className="hidden rounded-2xl bg-red-600/10 px-4 py-2 text-sm font-semibold text-red-300 ring-1 ring-red-500/30 md:block">
-                            Compra estimada
-                        </div>
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Personas</p>
-                            <p className="mt-2 text-3xl font-black">{totalPersonas}</p>
-                        </div>
-
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Carne estimada</p>
-                            <p className="mt-2 text-3xl font-black">
-                                {kilosTotales.toFixed(2)} kg
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Productos elegidos</p>
-                            <p className="mt-2 text-3xl font-black">{cantidadSeleccionados}</p>
-                        </div>
-
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Costo estimado</p>
-                            <p className="mt-2 text-3xl font-black">
-                                ${Math.round(costoEstimado).toLocaleString("es-CL")}
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Adultos que pagan</p>
-                            <p className="mt-2 text-3xl font-black">{totalAdultos}</p>
-                        </div>
-
-                        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                            <p className="text-sm text-zinc-400">Costo por adulto</p>
-                            <p className="mt-2 text-3xl font-black">
-                                ${Math.round(costoPorAdulto).toLocaleString("es-CL")}
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
-                            <p className="text-sm text-red-200">Compra sugerida total</p>
-                            <p className="mt-2 text-3xl font-black text-red-300">
-                                {kilosCompraSugerida.toFixed(2)} kg
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
-                            <p className="text-sm text-red-200">Valor compra sugerida</p>
-                            <p className="mt-2 text-3xl font-black text-red-300">
-                                ${Math.round(totalCompraSugerida).toLocaleString("es-CL")}
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
-                            <p className="text-sm text-red-200">Costo adulto sugerido</p>
-                            <p className="mt-2 text-3xl font-black text-red-300">
-                                $
-                                {Math.round(costoPorAdultoCompraSugerida).toLocaleString(
-                                    "es-CL"
-                                )}
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                        <p className="mb-3 font-bold text-white">Selección actual</p>
-
-                        <div className="grid gap-3 text-sm text-zinc-300 md:grid-cols-4">
-                            {resumenPorTipo.map((item) => (
-                                <div
-                                    key={item.nombre}
-                                    className="rounded-xl bg-zinc-950 p-3 ring-1 ring-zinc-800"
-                                >
-                                    <p className="text-zinc-500">{item.nombre}</p>
-                                    <p className="mt-1 text-xl font-black text-white">
-                                        {item.cantidad}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
-                        <div className="mb-4 flex items-center justify-between">
-                            <div>
-                                <p className="text-sm font-bold uppercase tracking-widest text-red-400">
-                                    Sugerencia de compra
-                                </p>
-                                <h3 className="text-xl font-black text-white">
-                                    Compra sugerida
-                                </h3>
-                            </div>
-                        </div>
-
-                        {compraSugerida.length === 0 ? (
-                            <p className="text-sm text-zinc-400">
-                                No hay productos seleccionados.
-                            </p>
-                        ) : (
-                            <div className="grid gap-3 md:grid-cols-2">
-                                {compraSugerida.map((item) => (
-                                    <div
-                                        key={item.nombre}
-                                        className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-sm"
-                                    >
-                                        <p className="font-bold text-white">{item.nombre}</p>
-
-                                        <div className="mt-3 space-y-1 text-zinc-400">
-                                            <p>Ideal calculado: {item.kilosIdeal.toFixed(2)} kg</p>
-                                            <p>Compra aprox: {item.kilosCompraAprox.toFixed(2)} kg</p>
-                                            <p>
-                                                Sugerencia: {item.cantidadSugerida}{" "}
-                                                {item.tipoVenta === "pack"
-                                                    ? "pack(s)"
-                                                    : item.tipoVenta === "unidad"
-                                                        ? "unidad(es)"
-                                                        : item.tipoVenta === "bandeja"
-                                                            ? "bandeja(s)"
-                                                            : "pieza(s)"}
-                                            </p>
-
-                                            {item.unidadesPorPack && (
-                                                <p>Unidades por pack: {item.unidadesPorPack}</p>
-                                            )}
-
-                                            {item.descripcionVenta && (
-                                                <p className="text-zinc-500">{item.descripcionVenta}</p>
-                                            )}
-                                        </div>
-
-                                        <p className="mt-3 rounded-xl bg-red-600/10 px-3 py-2 font-black text-red-300 ring-1 ring-red-500/30">
-                                            Costo aprox: $
-                                            {Math.round(item.costoSugerido).toLocaleString("es-CL")}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </section>
-
-                <div className="grid gap-3 sm:grid-cols-3">
-                    <button
-                        onClick={volverAEditar}
-                        className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-lg font-bold text-white hover:bg-zinc-800"
-                    >
-                        Volver a editar
-                    </button>
-
-                    <button
-                        onClick={generarPDF}
-                        className="w-full rounded-2xl border border-red-500/40 bg-red-600 px-4 py-4 text-lg font-bold text-white shadow-xl shadow-red-950/30 hover:bg-red-500"
-                    >
-                        Descargar PDF
-                    </button>
-
-                    <button
-                        onClick={reiniciarCalculo}
-                        className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-lg font-bold text-red-300 hover:bg-zinc-800"
-                    >
-                        Reiniciar
-                    </button>
-                </div>
+              <p className="mt-2 text-sm leading-6 text-zinc-300">
+                Cuando combinas carnes principales con embutidos, estos representan
+                inicialmente un {Math.round(PARTICIPACION_EMBUTIDOS_CON_CARNES * 100)}%
+                del total. Las carnes y bandejas con precio por kilo se calculan por
+                peso; packs y unidades se redondean de forma conjunta para reducir
+                compras innecesarias.
+              </p>
             </div>
-            <footer className="mt-8 bg-zinc-900 py-4 text-center text-xs text-zinc-500">
-                <p>
-                    * Los cálculos de carne y costos son aproximados y se basan en promedios de precios de grandes cadenas de supermercados y cortes envasados o packs. Los resultados pueden variar dependiendo de la tienda, el corte específico y la disponibilidad en el momento de la compra.
-                </p>
-            </footer>
-        </main>
-    );
+
+            <button
+              type="button"
+              onClick={() => setMostrarDisclaimer(false)}
+              className="rounded-full bg-zinc-900 px-3 py-1 text-sm font-bold text-zinc-300 ring-1 ring-zinc-700 hover:bg-zinc-800"
+              aria-label="Cerrar aviso"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-6">
+        <section className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-6 shadow-2xl shadow-red-950/20 md:p-8">
+          <div className="flex flex-col items-center text-center">
+            <h1 className="text-4xl font-black tracking-tight text-white md:text-6xl">
+              Resumen del Asado
+            </h1>
+
+            <img
+              src="/logo_final.png"
+              alt="Calculadora de Asados"
+              className="h-40 w-auto md:h-56"
+            />
+
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-zinc-400 md:text-base">
+              Revisa la cantidad base de carne, la compra comercial sugerida y el
+              costo aproximado de tu asado.
+            </p>
+          </div>
+        </section>
+
+        <section className="rounded-[2rem] border border-zinc-800 bg-zinc-950/90 p-5 shadow-2xl shadow-red-950/10 md:p-6">
+          <div className="mb-5 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-widest text-red-400">
+                Resultados
+              </p>
+              <h2 className="text-2xl font-black text-white">
+                Cálculo híbrido
+              </h2>
+            </div>
+
+            <div className="hidden rounded-2xl bg-red-600/10 px-4 py-2 text-sm font-semibold text-red-300 ring-1 ring-red-500/30 md:block">
+              Necesidad → compra → costo
+            </div>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+              <p className="text-sm text-zinc-400">Personas</p>
+              <p className="mt-2 text-3xl font-black">{demanda.totalPersonas}</p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+              <p className="text-sm text-zinc-400">Carne base</p>
+              <p className="mt-2 text-3xl font-black">
+                {demanda.kilosTotales.toFixed(2)} kg
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+              <p className="text-sm text-zinc-400">Productos elegidos</p>
+              <p className="mt-2 text-3xl font-black">{cantidadSeleccionados}</p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+              <p className="text-sm text-zinc-400">Costo teórico</p>
+              <p className="mt-2 text-3xl font-black">
+                {formatoPrecio(resultado.costoTeoricoTotal)}
+              </p>
+              <p className="mt-2 text-xs leading-5 text-zinc-500">
+                Sin redondear packs, bandejas o unidades.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
+              <p className="text-sm text-red-200">Compra sugerida</p>
+              <p className="mt-2 text-3xl font-black text-red-300">
+                {resultado.kilosCompraSugerida.toFixed(2)} kg
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
+              <p className="text-sm text-red-200">Valor de compra</p>
+              <p className="mt-2 text-3xl font-black text-red-300">
+                {formatoPrecio(resultado.costoCompraTotal)}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
+              <p className="text-sm text-red-200">Adultos que pagan</p>
+              <p className="mt-2 text-3xl font-black text-red-300">
+                {demanda.totalAdultos}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-red-500/30 bg-red-950/30 p-5">
+              <p className="text-sm text-red-200">Costo por adulto</p>
+              <p className="mt-2 text-3xl font-black text-red-300">
+                {demanda.totalAdultos > 0 ? formatoPrecio(costoPorAdulto) : "—"}
+              </p>
+            </div>
+          </div>
+
+          {resultado.excesoCompraTotalKg > 0.01 && (
+            <div className="mt-5 rounded-2xl border border-yellow-500/20 bg-yellow-500/5 px-4 py-3 text-sm leading-6 text-yellow-100/80">
+              La compra comercial agrega aproximadamente{" "}
+              <strong>{resultado.excesoCompraTotalKg.toFixed(2)} kg</strong> sobre
+              la cantidad ajustada, principalmente por el redondeo de packs,
+              bandejas o unidades completas.
+            </div>
+          )}
+
+          <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+            <p className="mb-3 font-bold text-white">Selección actual</p>
+
+            <div className="grid gap-3 text-sm text-zinc-300 md:grid-cols-4">
+              {resumenPorTipo.map((item) => (
+                <div
+                  key={item.nombre}
+                  className="rounded-xl bg-zinc-950 p-3 ring-1 ring-zinc-800"
+                >
+                  <p className="text-zinc-500">{item.nombre}</p>
+                  <p className="mt-1 text-xl font-black text-white">
+                    {item.cantidad}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-5">
+            <div className="mb-4">
+              <p className="text-sm font-bold uppercase tracking-widest text-red-400">
+                Sugerencia de compra
+              </p>
+              <h3 className="text-xl font-black text-white">
+                Qué comprar realmente
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-500">
+                La cantidad base ya representa peso crudo de compra. Solo se
+                redondea cuando el producto se vende en packs o unidades completas.
+              </p>
+            </div>
+
+            {resultado.items.length === 0 ? (
+              <p className="text-sm text-zinc-400">
+                No hay productos seleccionados.
+              </p>
+            ) : (
+              <div className="grid gap-3 md:grid-cols-2">
+                {resultado.items.map((item) => {
+                  const formato = descripcionFormato(
+                    item.formatoCompra,
+                    item.cantidadSugerida,
+                  );
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="rounded-2xl border border-zinc-800 bg-zinc-950 p-4 text-sm"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="font-bold text-white">{item.nombre}</p>
+                        <span className="rounded-full bg-zinc-900 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-zinc-400 ring-1 ring-zinc-800">
+                          {item.tipo}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 space-y-1.5 text-zinc-400">
+                        <p>
+                          Porción asignada: {item.kilosIdeal.toFixed(2)} kg
+                        </p>
+                        <p>
+                          Objetivo de compra: {item.kilosObjetivoCompra.toFixed(2)} kg
+                        </p>
+
+                        {formato ? (
+                          <p className="font-semibold text-zinc-300">
+                            Formato de compra: {formato}
+                          </p>
+                        ) : (
+                          <p className="font-semibold text-zinc-300">
+                            {item.formatoCompra === "bandeja"
+                              ? "Compra por peso · bandeja variable"
+                              : "Compra por peso"}
+                          </p>
+                        )}
+
+                        <p>
+                          Compra aprox.: {item.kilosCompraAprox.toFixed(2)} kg
+                        </p>
+
+                        {item.formatoCompra === "pack" && (
+                          <p>
+                            Precio equivalente: {formatoPrecio(item.precioKgEquivalente)}/kg
+                          </p>
+                        )}
+
+                        {item.unidadesPorPack && (
+                          <p>Unidades por pack: {item.unidadesPorPack}</p>
+                        )}
+
+                        {item.descripcionVenta && (
+                          <p className="text-zinc-500">{item.descripcionVenta}</p>
+                        )}
+                      </div>
+
+                      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                        <div className="rounded-xl bg-zinc-900 px-3 py-2 ring-1 ring-zinc-800">
+                          <p className="text-xs text-zinc-500">Costo teórico</p>
+                          <p className="mt-1 font-black text-zinc-200">
+                            {formatoPrecio(item.costoTeorico)}
+                          </p>
+                        </div>
+
+                        <div className="rounded-xl bg-red-600/10 px-3 py-2 ring-1 ring-red-500/30">
+                          <p className="text-xs text-red-200/70">Costo de compra</p>
+                          <p className="mt-1 font-black text-red-300">
+                            {formatoPrecio(item.costoSugerido)}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="overflow-hidden rounded-[2rem] border border-red-500/30 bg-gradient-to-br from-red-950/40 via-zinc-950 to-black p-5 shadow-2xl shadow-red-950/20 md:p-6">
+          <div className="mb-5">
+            <p className="text-sm font-bold uppercase tracking-widest text-red-400">
+              Compartir resultados
+            </p>
+            <h2 className="mt-1 text-2xl font-black text-white">
+              Lleva tu resumen al grupo del asado
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-400">
+              Copia el resultado o envíalo directamente por WhatsApp o correo.
+              El mensaje utiliza el valor de compra real estimado.
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <button
+              type="button"
+              onClick={copiarResultados}
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-base font-black text-white transition hover:-translate-y-0.5 hover:bg-zinc-800"
+            >
+              {copiado ? "✓ Resultados copiados" : "📋 Copiar resultados"}
+            </button>
+
+            <button
+              type="button"
+              onClick={compartirWhatsApp}
+              className="w-full rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-4 text-base font-black text-emerald-300 transition hover:-translate-y-0.5 hover:bg-emerald-500/20"
+            >
+              💬 Compartir por WhatsApp
+            </button>
+
+            <button
+              type="button"
+              onClick={compartirCorreo}
+              className="w-full rounded-2xl border border-red-500/40 bg-red-600 px-4 py-4 text-base font-black text-white shadow-xl shadow-red-950/30 transition hover:-translate-y-0.5 hover:bg-red-500"
+            >
+              ✉️ Enviar por correo
+            </button>
+          </div>
+        </section>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <button
+            type="button"
+            onClick={volverAEditar}
+            className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-lg font-bold text-white hover:bg-zinc-800"
+          >
+            Volver a editar
+          </button>
+
+          <button
+            type="button"
+            onClick={reiniciarCalculo}
+            className="w-full rounded-2xl border border-zinc-700 bg-zinc-900 px-4 py-4 text-lg font-bold text-red-300 hover:bg-zinc-800"
+          >
+            Reiniciar
+          </button>
+        </div>
+      </div>
+
+      <footer className="mt-8 bg-zinc-900 px-4 py-4 text-center text-xs leading-5 text-zinc-500">
+        <p>
+          * Los cálculos son aproximados. El modelo estima necesidad de carne,
+          aprovechamiento de cada producto y redondeo por formato comercial. Los
+          precios son referenciales y pueden variar según tienda, marca, peso real,
+          corte y disponibilidad.
+        </p>
+      </footer>
+    </main>
+  );
 }
