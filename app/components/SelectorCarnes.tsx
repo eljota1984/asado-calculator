@@ -667,21 +667,18 @@ export default function SelectorCarnes({
 
          <div className="mb-6 space-y-4">
 
-            <div className="flex items-center gap-3 rounded-xl bg-zinc-800 px-4 py-3 text-white">
-
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-zinc-800 px-4 py-3 text-white">
                <input
-
+                  id="solo-parrilla"
+                  name="soloParrilla"
                   type="checkbox"
-
                   checked={soloParrilla}
-
-                  onChange={() => setSoloParrilla(!soloParrilla)}
-
+                  onChange={(e) => setSoloParrilla(e.target.checked)}
+                  className="h-5 w-5 cursor-pointer"
                />
 
                <span>Mostrar solo productos de parrilla 🔥</span>
-
-            </div>
+            </label>
 
 
 
@@ -697,15 +694,13 @@ export default function SelectorCarnes({
 
                      onClick={() => setFiltroCategoria("todos")}
 
-                     className={`rounded-lg px-3 py-2 text-sm ${
-
-                        filtroCategoria === "todos"
+                     className={`rounded-lg px-3 py-2 text-sm ${filtroCategoria === "todos"
 
                            ? "bg-zinc-600 text-white"
 
                            : "bg-zinc-900 text-zinc-300 hover:bg-zinc-700"
 
-                     }`}
+                        }`}
 
                   >
 
@@ -719,15 +714,13 @@ export default function SelectorCarnes({
 
                      onClick={() => setFiltroCategoria("economico")}
 
-                     className={`rounded-lg px-3 py-2 text-sm ${
-
-                        filtroCategoria === "economico"
+                     className={`rounded-lg px-3 py-2 text-sm ${filtroCategoria === "economico"
 
                            ? "bg-green-700 text-white"
 
                            : "bg-zinc-900 text-zinc-300 hover:bg-zinc-700"
 
-                     }`}
+                        }`}
 
                   >
 
@@ -741,15 +734,13 @@ export default function SelectorCarnes({
 
                      onClick={() => setFiltroCategoria("mixto")}
 
-                     className={`rounded-lg px-3 py-2 text-sm ${
-
-                        filtroCategoria === "mixto"
+                     className={`rounded-lg px-3 py-2 text-sm ${filtroCategoria === "mixto"
 
                            ? "bg-yellow-600 text-white"
 
                            : "bg-zinc-900 text-zinc-300 hover:bg-zinc-700"
 
-                     }`}
+                        }`}
 
                   >
 
@@ -763,15 +754,13 @@ export default function SelectorCarnes({
 
                      onClick={() => setFiltroCategoria("premium")}
 
-                     className={`rounded-lg px-3 py-2 text-sm ${
-
-                        filtroCategoria === "premium"
+                     className={`rounded-lg px-3 py-2 text-sm ${filtroCategoria === "premium"
 
                            ? "bg-red-700 text-white"
 
                            : "bg-zinc-900 text-zinc-300 hover:bg-zinc-700"
 
-                     }`}
+                        }`}
 
                   >
 

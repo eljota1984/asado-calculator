@@ -70,26 +70,32 @@ export default function SelectorPersonas({
           </div>
         </div>
 
-        <div className="mt-5 flex items-center justify-between rounded-2xl bg-zinc-900 p-2 ring-1 ring-zinc-800">
+        <div
+          role="group"
+          aria-label={`Controles de cantidad para ${titulo}`}
+          className="mt-5 flex items-center justify-between rounded-2xl bg-zinc-900 p-2 ring-1 ring-zinc-800"
+        >
           <button
             type="button"
+            aria-label={`Quitar una persona de ${titulo}`}
             onClick={() => cambiarCantidad(tipo, "restar")}
-            className="flex h-11 w-11 items-center justify-center rounded-xl bg-zinc-800 text-2xl font-black text-white transition hover:bg-zinc-700"
+            className="flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-800 text-2xl font-black text-white transition hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300"
           >
             −
           </button>
 
           <div className="text-center">
-            <span className="block text-3xl font-black text-white">
+            <span aria-live="polite" className="block text-3xl font-black text-white">
               {cantidad}
             </span>
-            <span className="text-xs text-zinc-500">cantidad</span>
+            <span className="text-sm text-zinc-300">cantidad</span>
           </div>
 
           <button
             type="button"
+            aria-label={`Agregar una persona a ${titulo}`}
             onClick={() => cambiarCantidad(tipo, "sumar")}
-            className="flex h-11 w-11 items-center justify-center rounded-xl bg-red-600 text-2xl font-black text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500"
+            className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-600 text-2xl font-black text-white shadow-lg shadow-red-950/30 transition hover:bg-red-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-300"
           >
             +
           </button>
@@ -172,5 +178,3 @@ export default function SelectorPersonas({
     </section>
   );
 }
-
-

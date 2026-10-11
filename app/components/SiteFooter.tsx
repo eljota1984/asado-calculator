@@ -89,12 +89,12 @@ export default function SiteFooter() {
             Calculadora de Asados
           </p>
 
-          <p className="mt-2 max-w-md text-xs leading-6 text-zinc-500">
+          <p className="mt-2 max-w-md text-sm leading-6 text-zinc-400">
             Calcula, aprende y disfruta. Guías, recetas,
             consejos y herramientas para preparar mejores asados.
           </p>
 
-          <p className="mt-3 text-xs text-zinc-600">
+          <p className="mt-3 text-sm text-zinc-400">
             © {currentYear} Calculadora de Asados.
             Todos los derechos reservados.
           </p>
@@ -102,7 +102,7 @@ export default function SiteFooter() {
 
         {/* Redes sociales */}
         <div className="flex flex-col gap-3 md:items-end">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-zinc-500">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-400">
             Síguenos
           </p>
 
@@ -118,8 +118,8 @@ export default function SiteFooter() {
                 className="
                   group
                   flex
-                  h-11
-                  w-11
+                  h-12
+                  w-12
                   items-center
                   justify-center
                   rounded-full
@@ -135,6 +135,10 @@ export default function SiteFooter() {
                   hover:text-white
                   hover:shadow-lg
                   hover:shadow-red-950/30
+                  focus-visible:outline
+                  focus-visible:outline-2
+                  focus-visible:outline-offset-2
+                  focus-visible:outline-red-400
                 "
               >
                 <SocialIcon name={social.name} />
@@ -143,14 +147,14 @@ export default function SiteFooter() {
           </div>
 
           {/* Nombres de usuario */}
-          <div className="flex flex-col gap-1 text-xs md:items-end">
+          <div className="flex flex-col gap-2 text-sm md:items-end">
             {socialLinks.map((social) => (
               <a
                 key={`${social.name}-handle`}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-zinc-500 transition hover:text-red-400"
+                className="inline-flex min-h-12 items-center font-semibold text-zinc-300 transition hover:text-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
               >
                 {social.name}: {social.handle}
               </a>
