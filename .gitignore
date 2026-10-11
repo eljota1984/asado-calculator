@@ -42,3 +42,7 @@ next-env.d.ts
 
 # Service worker generado automáticamente durante el build
 /public/serwist/
+
+# Service worker generado durante el build
+/public/sw.js
+/public/sw.js.map

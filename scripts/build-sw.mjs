@@ -24,8 +24,7 @@ const { generateStaticParams, GET } = createSerwistRoute({
   useNativeEsbuild: true,
 });
 
-const outDir = path.join(process.cwd(), "public", "serwist");
-await mkdir(outDir, { recursive: true });
+const outDir = path.join(process.cwd(), "public");
 
 const params = await generateStaticParams();
 
@@ -44,5 +43,5 @@ for (const { path: filePath } of params) {
   await mkdir(path.dirname(destination), { recursive: true });
   await writeFile(destination, await response.text(), "utf-8");
 
-  console.log(`Service worker generado: public/serwist/${filePath}`);
+  console.log(`Service worker generado: public/${filePath}`);
 }
