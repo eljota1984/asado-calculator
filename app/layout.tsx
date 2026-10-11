@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
+import PWAUpdateManager from "./components/PWAUpdateManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +59,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <SerwistProvider swUrl="/sw.js">
           {children}
+
+          <PWAUpdateManager />
+
           <SiteFooter />
         </SerwistProvider>
       </body>
