@@ -9,7 +9,7 @@ export default function OfflinePage() {
         </h1>
 
         <p className="mt-4 leading-7 text-zinc-400">
-          No pudimos cargar esta página desde internet.
+         No pudimos cargar esta página porque estás sin conexión.
         </p>
 
         <p className="mt-3 leading-7 text-zinc-400">
