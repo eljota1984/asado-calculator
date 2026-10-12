@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
 import PWAUpdateManager from "./components/PWAUpdateManager";
+import PWAInstallBanner from "./components/PWAInstallBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,9 +57,20 @@ export default function RootLayout({
       lang="es-CL"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {/* <body className="min-h-full flex flex-col">
+        <SerwistProvider swUrl="/sw.js">
+          {children}
+
+          <PWAUpdateManager />
+
+          <SiteFooter />
+        </SerwistProvider>
+      </body> */}
       <body className="min-h-full flex flex-col">
         <SerwistProvider swUrl="/sw.js">
           {children}
+
+          <PWAInstallBanner />
 
           <PWAUpdateManager />
 
