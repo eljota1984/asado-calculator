@@ -311,7 +311,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="relative mx-auto mt-8 max-w-5xl border-t border-zinc-800 py-5 text-center text-xs leading-5 text-zinc-500">
+      <footer className="relative mx-auto mt-8 max-w-5xl border-t border-zinc-800 py-5 text-center text-xs leading-5 text-white">
         <p>
           * Los cálculos de carne y costos son aproximados y se basan en
           promedios de precios de grandes cadenas de supermercados y cortes

@@ -513,7 +513,7 @@ export default function ResumenPage() {
         </div>
       </div>
 
-      <footer className="mt-8 bg-zinc-900 px-4 py-4 text-center text-xs leading-5 text-zinc-500">
+      <footer className="mt-8 bg-zinc-900 px-4 py-4 text-center text-xs leading-5 text-white">
         <p>
           * Los cálculos son aproximados. El modelo estima necesidad de carne,
           aprovechamiento de cada producto y redondeo por formato comercial. Los
