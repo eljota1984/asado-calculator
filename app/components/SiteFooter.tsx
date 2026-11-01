@@ -1,3 +1,6 @@
+
+import Link from "next/link";
+
 const socialLinks = [
   {
     name: "Instagram",
@@ -8,6 +11,21 @@ const socialLinks = [
     name: "YouTube",
     href: "https://www.youtube.com/@AsadointeligenteChile",
     handle: "@AsadointeligenteChile",
+  },
+];
+
+const legalLinks = [
+  {
+    name: "Quiénes somos",
+    href: "/quienes-somos",
+  },
+  {
+    name: "Contacto",
+    href: "/contacto",
+  },
+  {
+    name: "Política de privacidad",
+    href: "/privacidad",
   },
 ];
 
@@ -81,7 +99,7 @@ export default function SiteFooter() {
 
   return (
     <footer className="relative z-10 border-t border-zinc-800 bg-black px-4 py-8 text-white">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 md:grid-cols-3">
 
         {/* Información del sitio */}
         <div>
@@ -89,16 +107,36 @@ export default function SiteFooter() {
             Calculadora de Asados
           </p>
 
-          <p className="mt-2 max-w-md text-sm leading-6 text-zinc-400">
+          <p className="mt-3 max-w-md text-sm leading-6 text-zinc-400">
             Calcula, aprende y disfruta. Guías, recetas,
             consejos y herramientas para preparar mejores asados.
           </p>
 
-          <p className="mt-3 text-sm text-zinc-400">
+          <p className="mt-5 text-sm leading-6 text-zinc-500">
             © {currentYear} Calculadora de Asados.
             Todos los derechos reservados.
           </p>
         </div>
+
+        {/* Enlaces informativos */}
+        <nav aria-label="Información del sitio">
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-zinc-400">
+            Información
+          </p>
+
+          <ul className="mt-3 flex flex-col gap-1">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-zinc-300 transition hover:text-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-400"
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* Redes sociales */}
         <div className="flex flex-col gap-3 md:items-end">
