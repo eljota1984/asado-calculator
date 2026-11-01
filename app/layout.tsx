@@ -1,6 +1,8 @@
+
 import { SerwistProvider } from "@serwist/turbopack/react";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SiteFooter from "./components/SiteFooter";
 import PWAUpdateManager from "./components/PWAUpdateManager";
@@ -44,7 +46,6 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
-
 };
 
 export default function RootLayout({
@@ -57,16 +58,16 @@ export default function RootLayout({
       lang="es-CL"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      {/* <body className="min-h-full flex flex-col">
-        <SerwistProvider swUrl="/sw.js">
-          {children}
-
-          <PWAUpdateManager />
-
-          <SiteFooter />
-        </SerwistProvider>
-      </body> */}
       <body className="min-h-full flex flex-col">
+        {/* Google AdSense - Verificación del sitio */}
+        <Script
+          id="google-adsense"
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1473477366060166"
+          crossOrigin="anonymous"
+          strategy="beforeInteractive"
+        />
+
         <SerwistProvider swUrl="/sw.js">
           {children}
 
