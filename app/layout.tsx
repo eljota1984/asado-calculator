@@ -46,7 +46,14 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+
+  other: {
+    "google-adsense-account": "ca-pub-1473477366060166",
+  },
+
 };
+
+
 
 export default function RootLayout({
   children,
